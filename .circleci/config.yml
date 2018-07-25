@@ -1,1 +1,33 @@
-# T
+_uri: >-
+  file:///Users/kyleobrien/Desktop/Desktop/Development/Professional/cruzhacks/backend/.circleci/config.yml
+_languageId: yaml
+_version: 414
+_content: |
+  version: 2
+
+  jobs:
+    test:
+      docker:
+        - image: circleci/python:3.6
+      steps:
+        - checkout
+        - run:
+            name: Run Tests
+            command: |
+              pip install -r ./requirements.txt
+              pytest
+              echo "Tests Completed"
+
+    lint:
+      docker:
+        - image: circleci/python:3.6
+      steps:
+        - checkout
+        - run:
+            name: Check Code For Style Compliance
+            command: |
+              pip install -r ./requirements.txt
+              echo "Running Linter"
+              pylint .
+              echo "Linting Completed"
+_lineOffsets: null

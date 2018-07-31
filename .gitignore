@@ -12,6 +12,8 @@ test.py
 
 .vscode/
 
+.idea
+
 # Distribution / packaging
 .Python
 build/

@@ -1,1 +1,35 @@
-# T
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - run:
+          name: Run Tests
+          command: |
+            sudo pip install -r ./requirements.txt
+            pytest
+            echo "Tests Completed"
+
+  lint:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - checkout
+      - run:
+          name: Check Code For Style Compliance
+          command: |
+            sudo pip install -r ./requirements.txt
+            echo "Running Linter"
+            pylint .
+            echo "Linting Completed"
+
+workflows:
+  version: 2
+  lint_and_test:
+    jobs:
+      - test
+      - lint
+

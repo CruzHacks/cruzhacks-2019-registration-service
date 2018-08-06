@@ -37,11 +37,12 @@ These configs are mainly for deployment so it won't matter much in this repo, bu
 ### Prerequisities
 
 - [Docker](https://docs.docker.com/install/#supported-platforms)
+- CircleCI: for MacOS on [Homebrew](https://brew.sh/), run `brew install circleci`
 
 ### Testing
 
 ```bash
-pytest ./services
+circle build --job test
 ```
 
 ### Precommit
@@ -49,5 +50,5 @@ pytest ./services
 In addition to running the tests, run linters.
 
 ```bash
-pylint ./services
+circle build --job lint
 ```

@@ -13,4 +13,4 @@ RUN pip install --upgrade pip
 RUN pip install -r /usr/src/app/registration/requirements.txt
 
 # Config settings to load BEFORE the entry point of the container.
-ENV GUNICORN_AUTO_RELOAD="on"
+ENV GUNICORN_AUTO_RELOAD="off"

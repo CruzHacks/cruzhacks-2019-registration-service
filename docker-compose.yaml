@@ -20,7 +20,7 @@ services:
     working_dir: /usr/src/app/registration
     environment:  # Config settings to load AFTER the entry point of the container.
       - PYTHONPATH="$PYTHONPATH:/usr/src/app:/usr/local/lib:/usr/local/bin"
-      - DEPLOYMENT_MODE="dev"
+      - DEPLOYMENT_MODE="prod"
       - SQLALCHEMY_DATABASE_URI=postgresql://postgres:tmp@postgres/cruzhacks_db?port=5432
     expose:
       - "8000"

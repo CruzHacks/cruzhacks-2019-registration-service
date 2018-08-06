@@ -2,6 +2,8 @@ version: 2
 
 jobs:
   test:
+    environment:
+      PYTHONPATH: ./services
     docker:
       - image: circleci/python:3.6
     steps:
@@ -9,11 +11,14 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            sudo pip install -r ./requirements.txt
+            export PYTHONPATH="$PYTHONPATH:$PWD"
+            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; fi; done
             pytest
             echo "Tests Completed"
 
   lint:
+    environment:
+      PYTHONPATH: ./services
     docker:
       - image: circleci/python:3.6
     steps:
@@ -21,9 +26,8 @@ jobs:
       - run:
           name: Check Code For Style Compliance
           command: |
-            sudo pip install -r ./requirements.txt
             echo "Running Linter"
-            pylint .
+            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; pylint $service; fi; done
             echo "Linting Completed"
 
 workflows:

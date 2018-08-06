@@ -1,5 +1,5 @@
 import logging
-from registration.src.api import app as application
+from registration.src.app import app as application
 
 # Mapping app -> application is required because wsgi looks
 # specifically for the 'application' variable to run from.

@@ -1,7 +1,7 @@
 # Build environment initialization.
 FROM python:3.6.5-alpine3.7
 RUN apk update
-RUN apk add bash sudo gcc musl-dev --no-cache
+RUN apk add bash sudo gcc musl-dev postgresql-dev --no-cache
 RUN mkdir -p /usr/src/app/registration
 
 # Define the app as a Python package.

@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            sudo pip install -r ./requirements.txt
+            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; fi; done
             pytest
             echo "Tests Completed"
 
@@ -21,9 +21,8 @@ jobs:
       - run:
           name: Check Code For Style Compliance
           command: |
-            sudo pip install -r ./requirements.txt
             echo "Running Linter"
-            pylint .
+            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; pylint $service; fi; done
             echo "Linting Completed"
 
 workflows:

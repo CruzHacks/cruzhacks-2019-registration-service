@@ -7,6 +7,7 @@ Flask-SQLAlchemy == 2.3.2
 Flask-RESTful == 0.3.6
 gunicorn == 19.9.0
 psycopg2 == 2.7.5
+webargs == 4.0.0
 
 
 # Dev

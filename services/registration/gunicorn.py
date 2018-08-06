@@ -1,3 +1,5 @@
+# pylint: skip-file
+"""Config script for gunicorn."""
 import os
 
 if os.environ.get('GUNICORN_AUTO_RELOAD', '').lower() == 'on':

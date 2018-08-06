@@ -19,3 +19,11 @@ services:
     expose:
       - "8000"
     entrypoint: gunicorn registration.wsgi --config=./gunicorn.py
+    
+  postgres:
+    image: postgres:10-alpine
+    volumes:
+      # Allows persistent data by syncing the local dir with the container's dir.
+      - ./postgres-data:/var/lib/postgresql  # /var/lib/postgresql/data is the default for PGDATA variable.
+    environment:
+      - POSTGRES_PASSWORD=tmp  # Only other containers on this server have access since we do not expose ports.

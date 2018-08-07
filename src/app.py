@@ -4,8 +4,12 @@
 
 
 from flask import Flask, jsonify
+from src.models.Attendee import db
 
 APP = Flask(__name__)
+
+
+db.init_app(APP)
 
 
 @APP.route("/", methods=["GET"])

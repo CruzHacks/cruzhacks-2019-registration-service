@@ -29,7 +29,7 @@ class Attendee(DB.Model):
 
     # Fill in the other attributes from DBSchema.md
 
-    def __init__(self):
+    def __init__(self, email='', fn='', ln='', univ=''):
         # Still need public ID and private ID, generate them from unique email
         guid = uuid4()
         self.private_id = str(guid)
@@ -37,10 +37,10 @@ class Attendee(DB.Model):
         # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
 
-        self.email = ""
-        self.first_name = ""
-        self.last_name = ""
-        self.school = ""
+        self.email = email
+        self.first_name = fn
+        self.last_name = ln
+        self.school = univ
 
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, school=%s }" % (self.email, self.first_name, self.last_name, self.school)

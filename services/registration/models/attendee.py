@@ -22,10 +22,11 @@ class Attendee(DB.Model):
 
     private_id = DB.Column('private_id', DB.String(36), primary_key=True)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
-    email = DB.Column('email', db.String(50), unique = True)
-    first_name = DB.Column('first_name', db.String(50))
-    last_name = DB.Column('last_name', db.String(50))
-    school = DB.Column('school', db.String(50))
+    email = DB.Column('email', DB.String(50), unique = True)
+    first_name = DB.Column('first_name', DB.String(50))
+    last_name = DB.Column('last_name', DB.String(50))
+    school = DB.Column('school', DB.String(50))
+    url = DB.Column('url', DB.String(100), nullable=True)
 
     # Fill in the other attributes from DBSchema.md
 
@@ -37,6 +38,7 @@ class Attendee(DB.Model):
         # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
 
+        # general info
         self.email = email
         self.first_name = fn
         self.last_name = ln

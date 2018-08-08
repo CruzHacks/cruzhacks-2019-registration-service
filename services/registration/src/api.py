@@ -18,7 +18,7 @@ class Register(Resource):
     """Test endpoint for getting/posting users from the DB."""
     def get(self):
         """Gets every row in Registrations table."""
-        return [query_response_to_dict(r) for r in Registrations.query.all()]
+        return [query_response_to_dict(r) for r in Attendee.query.all()]
 
     def post(self):
         """Creates a row in Registrations table."""

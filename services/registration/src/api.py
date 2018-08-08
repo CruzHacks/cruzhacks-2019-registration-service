@@ -1,6 +1,6 @@
 """Defines API endpoints."""
 from flask_restful import Api, Resource
-from registration.src.db import DB, Registrations, query_response_to_dict
+from registration.models.attendee import DB, Attendee, query_response_to_dict
 
 API = Api()
 

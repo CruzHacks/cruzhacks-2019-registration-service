@@ -37,5 +37,10 @@ class Attendee(DB.Model):
         # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
 
+        self.email = ""
+        self.first_name = ""
+        self.last_name = ""
+        self.school = ""
+
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, school=%s }" % (self.email, self.first_name, self.last_name, self.school)

@@ -22,6 +22,6 @@ class Register(Resource):
 
     def post(self):
         """Creates a row in Registrations table."""
-        DB.session.add(Registrations())
+        DB.session.add(Attendee())
         DB.session.commit()
         return 'posted!'

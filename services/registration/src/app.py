@@ -1,7 +1,7 @@
 """Initializes and configures Flask APP, including DB and API endpoints."""
 import os
 from flask import Flask
-from registration.src.db import DB
+from registration.models.attendee import DB
 from registration.src.api import API
 
 APP = Flask(__name__)

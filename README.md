@@ -1,85 +1,54 @@
-# CruzHacks 2019 Registration Service
+# CruzHacks 2019 Backend Services
+
+## Summary
+
+This repo defines backend services for use within Docker.  Docker abstracts away your environment specific settings so that your code runs the same everywhere.  Each service's build environment is defined in a `Dockerfile`.  We bring up all of the services with `docker-compose.yaml`.
+
+NGINX is used as a reverse proxy into each service's web server.  For registration, the Flask app is served with gunicorn to be production-ready and separate from all other services.  Postgres is configured to be persistent, so killing your Postgres container and restarting it will preserve the data.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Build containers for each service and run them:
+
+```bash
+docker-compose up --build
+```
+
+Then hit your endpoints with the service name prefixing each route:
+
+```bash
+curl localhost/registration
+curl -X POST localhost/registration
+curl -X GET localhost/registration
+```
+
+Note that the default port is set to 80 (the same as HTTP) for production.  Any requests to localhost on port 80 will go to these backend services.  If this is a problem for you locally, change the NGINX host port (format is `HOST:CONTAINER`) in docker-compose.yml (for development only).
+
+Replace GET with whatever HTTP verb you want to hit the endpoint with.  You may need the `--data` argument (for POSTs usually), check `man curl` for more details.
+
+The port number varies depending on the service.  Verify that you're hitting the right port by checking for the service's container in `docker ps`. 
+
+To ease development, set `ENV GUNICORN_AUTO_RELOAD="on"` at the bottom of `./services/registration/Dockerfile`.  This will allow you to make changes in source code that is reflected on your running Docker container.  Please toggle this to `ENV GUNICORN_AUTO_RELOAD="off"` when you are pushing to master.
+
+Similarly, if developing, you can set `DEPLOYMENT_MODE="dev"` under a service's environment variables in `./docker-compose.yaml` to get more debugging information.  Please toggle this to `DEPLOYMENT_MODE="prod"` when you are pushing to master.  
+
+These configs are mainly for deployment so it won't matter much in this repo, but it's easier if we guarantee that those are toggled to production mode.  It's one simple check before each PR (can we do this in CI somehow?).
 
 ### Prerequisities
 
-What things you need to install the software and how to install them
+- [Docker](https://docs.docker.com/install/#supported-platforms)
+- CircleCI: for MacOS on [Homebrew](https://brew.sh/), run `brew install circleci`
 
-```
-Give examples
-```
+### Testing
 
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Stay what the step will be
-
-```
-Give the example
+```bash
+circle build --job test
 ```
 
-And repeat
+### Precommit
 
+In addition to running the tests, run linters.
+
+```bash
+circle build --job lint
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc

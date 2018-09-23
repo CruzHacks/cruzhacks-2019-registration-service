@@ -12,5 +12,7 @@ webargs == 4.0.0
 
 # Dev
 pytest
+pytest-mock
 autopep8
 pylint
+werkzeug

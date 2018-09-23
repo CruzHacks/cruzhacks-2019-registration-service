@@ -24,8 +24,7 @@ def whitelist(func):
             token = kwargs['token']
             try:
                 assert os.environ['{}_token'.format(uid)] == token
-            except (AssertionError, KeyError) as e:
-                LOG.exception(e, 'Invalid request as uid={} and token={}'.format(uid, token))
+            except (AssertionError, KeyError):
                 abort(401, message='Unauthorized access.  This incident will be reported.')
         return func(*args, **kwargs)
     return wrapper

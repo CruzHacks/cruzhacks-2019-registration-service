@@ -1,17 +1,15 @@
 """Initializes and configures Flask APP, including DB and API endpoints."""
 import os
 from flask import Flask
+from registration.src import DEPLOYMENT_MODE
 from registration.src.db import DB
 from registration.src.api import API
 
 APP = Flask(__name__)
 
 with APP.app_context():
-    DB_URI = os.environ['SQLALCHEMY_DATABASE_URI']
-    DEPLOYMENT_MODE = os.getenv('DEPLOYMENT_MODE', 'prod').lower()
-
     # Set DB connection.  If not found, raises KeyError and exits.
-    APP.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+    APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
     # Assume we're not in dev.
     APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -33,4 +31,4 @@ with APP.app_context():
     DB.create_all() # Create any tables if they do not exist.
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8000, debug=True)
+    APP.run(host='0.0.0.0', port=os.environ.get('PORT', 8000), debug=True)

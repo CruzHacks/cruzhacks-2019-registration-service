@@ -4,6 +4,7 @@ import os
 import logging
 from functools import wraps
 
+import bcrypt
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Api, Resource
@@ -20,10 +21,12 @@ def whitelist(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if IS_WHITELIST_ENABLED:
-            uid = kwargs['uid']
-            token = kwargs['token']
             try:
-                assert os.environ['{}_token'.format(uid)] == token
+                uid = kwargs['uid']
+                token = kwargs['token']
+                salt = os.environ['{}_salt'.format(uid)]
+                hashed_input = bcrypt.hashpw(token, salt)
+                assert bcrypt.hashpw(token, hashed_input) == os.environ['{}_hashed'.format(uid)]
             except (AssertionError, KeyError):
                 abort(401, message='Unauthorized access.  This incident will be reported.')
         return func(*args, **kwargs)

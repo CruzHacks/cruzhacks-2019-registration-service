@@ -2,6 +2,7 @@
 # https://github.com/damnever/pigar
 
 # app.py: 1
+py-bcrypt == 0.4
 Flask == 0.12.2
 Flask-SQLAlchemy == 2.3.2
 Flask-RESTful == 0.3.6

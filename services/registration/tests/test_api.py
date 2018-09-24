@@ -24,16 +24,32 @@ class TestWhitelist:
 
     def test_success(self, mocker):
         """Good UID and matching token."""
-        mocker.patch.dict(os.environ, {'amickey_token': 'ucsc'})
+        mocker.patch.dict(
+            os.environ,
+            {
+                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
+                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6'
+            }
+        )
         assert TestWhitelist._fake_function(uid='amickey', token='ucsc') == 'amickey:ucsc'
 
     @pytest.mark.parametrize('test_environ,test_uid,test_token', [
-        ({'amickey_token': 'uw'}, 'amickey', 'ucsc'),  # Good UID, bad token.
-        ({}, 'amickey', 'ucsc')  # Bad UID.
+        (   # Good UID, bad token.
+            {
+                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
+                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6'
+            },
+            'amickey',
+            'uw'
+        ),
+        (   # Bad UID.
+            {},
+            'amickey',
+            'ucsc'
+        )
     ])
     def test_unauthorized(self, mocker, test_environ, test_uid, test_token):
         """Unauthorized, UID and token do not match whitelist."""
         mocker.patch.dict(os.environ, test_environ)
-        mocker.patch('registration.src.api.IS_WHITELIST_ENABLED').return_value = True
         with pytest.raises(Unauthorized):
             TestWhitelist._fake_function(uid=test_uid, token=test_token)

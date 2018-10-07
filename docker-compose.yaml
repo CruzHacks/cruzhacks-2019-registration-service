@@ -4,15 +4,6 @@
 
 version: '3'
 services:
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"  # Forward port 80 on the client to 80 on the container.
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - registration
-
   registration:
     build: ./services/registration
     volumes:
@@ -20,11 +11,12 @@ services:
     working_dir: /usr/src/app/registration
     environment:  # Config settings to load AFTER the entry point of the container.
       - PYTHONPATH="$PYTHONPATH:/usr/src/app:/usr/local/lib:/usr/local/bin"
-      - DEPLOYMENT_MODE="prod"
-      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:tmp@postgres/cruzhacks_db?port=5432
-    expose:
-      - "8000"
-    entrypoint: gunicorn registration.wsgi --config=./gunicorn.py
+      - DEPLOYMENT_MODE=prod
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/cruzhacks_db
+      - IS_WHITELIST_ENABLED=False
+    ports:
+      - "8000:8000"
+    restart: always
     depends_on:
       - postgres
 
@@ -35,5 +27,8 @@ services:
       # Heroku doesn't support 'volumes' tag so we need to figure something out.
       - ./postgres/data:/var/lib/postgresql/data  # /var/lib/postgresql/data is the default for PGDATA variable.
     environment:
-      - POSTGRES_PASSWORD=tmp  # This should be changed when deployed and taking in real data.
+      - POSTGRES_PASSWORD=password  # This is only used for local testing so it doesn't matter.
       - POSTGRES_DB=cruzhacks_db
+    ports:
+      - "5432:5432"
+    restart: always

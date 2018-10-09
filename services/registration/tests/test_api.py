@@ -4,7 +4,7 @@ import os
 import pytest
 from werkzeug.exceptions import Unauthorized
 
-from registration.src.api import whitelist
+from registration.src.api import whitelist, WHITELIST_GIDS
 
 class TestWhitelist:
     """Tests if a user can access a whitelisted function."""
@@ -17,7 +17,7 @@ class TestWhitelist:
         mocker.patch('registration.src.api.IS_WHITELIST_ENABLED').return_value = True
 
     @staticmethod
-    @whitelist
+    @whitelist({WHITELIST_GIDS['dev']})
     def _fake_function(uid=None, token=None):
         """Acts as some function to be whitelisted."""
         return '{}:{}'.format(uid, token)
@@ -28,16 +28,27 @@ class TestWhitelist:
             os.environ,
             {
                 'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
-                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6'
+                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
+                'amickey_groups': 'admin,dev,team'
             }
         )
         assert TestWhitelist._fake_function(uid='amickey', token='ucsc') == 'amickey:ucsc'
 
     @pytest.mark.parametrize('test_environ,test_uid,test_token', [
-        (   # Good UID, bad token.
+        (   # Good UID, bad token, good groups.
             {
                 'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
-                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6'
+                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
+                'amickey_groups': 'admin,dev,team'
+            },
+            'amickey',
+            'uw'
+        ),
+        (   # Good UID, good token, bad groups.
+            {
+                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
+                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
+                'amickey_groups': 'judge'
             },
             'amickey',
             'uw'

@@ -1,8 +1,4 @@
 """Defines API endpoints."""
-<<<<<<< HEAD
-from flask_restful import Api, Resource
-from registration.models.attendee import DB, Attendee, query_response_to_dict
-=======
 #pylint: disable=unused-argument,invalid-name,no-member,no-self-use
 import os
 import logging
@@ -14,7 +10,6 @@ from flask_restful import abort, Api, Resource
 
 from registration.src import IS_WHITELIST_ENABLED
 from registration.src.db import DB, Registrations, query_response_to_dict
->>>>>>> b56c5cda2e251a024aceee945c4801549d8faff2
 
 API = Api()
 LOG = logging.getLogger(__name__)

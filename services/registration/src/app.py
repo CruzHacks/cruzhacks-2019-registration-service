@@ -1,12 +1,8 @@
 """Initializes and configures Flask APP, including DB and API endpoints."""
 import os
 from flask import Flask
-<<<<<<< HEAD
-from registration.models.attendee import DB
-=======
 from registration.src import DEPLOYMENT_MODE
 from registration.src.db import DB
->>>>>>> b56c5cda2e251a024aceee945c4801549d8faff2
 from registration.src.api import API
 
 APP = Flask(__name__)

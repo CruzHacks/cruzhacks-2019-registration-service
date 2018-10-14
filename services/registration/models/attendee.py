@@ -22,13 +22,13 @@ class Attendee(DB.Model):
 
     # optional fields
     optional_info = {}
-    optional_info["gender"] = DB.Column('gender', DB.String(1)) #M or F or O (other or prefer not to say?)
-    optional_info["ethnicity"] = DB.Column('ethnicity',DB.String(20))
-    optional_info["major"] = DB.Column('major', DB.String(20))
-    optional_info["dietary_rest"] = DB.Column("dietary_rest", DB.String(50))
-    optional_info["num_hacks"] = DB.Column("num_hacks", DB.Integer)
-    optional_info["linkedin"] = DB.Column("linkedin", DB.String(50))
-    optional_info["github"] = DB.Column("github", DB.String(50))
+    optional_info["gender"] = DB.Column('gender', DB.String(1), nullable=True) #M or F or O (other or prefer not to say?)
+    optional_info["ethnicity"] = DB.Column('ethnicity',DB.String(20), nullable=True)
+    optional_info["major"] = DB.Column('major', DB.String(20), nullable=True)
+    optional_info["dietary_rest"] = DB.Column("dietary_rest", DB.String(50), nullable=True)
+    optional_info["num_hacks"] = DB.Column("num_hacks", DB.Integer, nullable=True)
+    optional_info["linkedin"] = DB.Column("linkedin", DB.String(50), nullable=True)
+    optional_info["github"] = DB.Column("github", DB.String(50), nullable=True)
 
 
 

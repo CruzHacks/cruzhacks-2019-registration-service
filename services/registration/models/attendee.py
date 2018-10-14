@@ -4,17 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 DB = SQLAlchemy()
 
-
-def query_response_to_dict(response):
-    """Converts a query response from the DB into a dictionary (for jsonify preprocessing)."""
-    return dict((col, getattr(response, col)) for col in response.__table__.columns.keys())
-
-
-def get_query_res(table, **kwargs):
-    """ Returns all kwarg matches in DB model as a list """
-    return table.query.filter_by(**kwargs).all()
-
-
 class Attendee(DB.Model):
     #pylint: disable=no-member,too-few-public-methods
     """Table of a people's submitted registration info."""

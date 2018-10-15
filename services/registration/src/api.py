@@ -65,6 +65,7 @@ class Register(Resource):
     @whitelist
     def post(self, uid=None, token=None):
         """Creates a row in Registrations table."""
+        # pylint: disable=no-value-for-parameter
         DB.session.add(Attendee())
         DB.session.commit()
         return 'posted!'

@@ -9,7 +9,8 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Api, Resource
 
 from registration.src import IS_WHITELIST_ENABLED
-from registration.src.db import DB, Registrations, query_response_to_dict
+from registration.src.db import DB, query_response_to_dict
+from registration.models.attendee import Attendee
 
 API = Api()
 LOG = logging.getLogger(__name__)

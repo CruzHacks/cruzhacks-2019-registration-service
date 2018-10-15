@@ -9,7 +9,8 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Api, Resource
 
 from registration.src import IS_WHITELIST_ENABLED
-from registration.src.db import DB, Registrations, query_response_to_dict
+from registration.src.db import DB, query_response_to_dict
+from registration.models.attendee import Attendee
 
 API = Api()
 LOG = logging.getLogger(__name__)
@@ -55,7 +56,7 @@ class Register(Resource):
     @whitelist
     def get(self, uid=None, token=None):
         """Gets every row in Registrations table."""
-        return [query_response_to_dict(r) for r in Registrations.query.all()]
+        return [query_response_to_dict(r) for r in Attendee.query.all()]
 
     @use_kwargs({
         'uid': fields.String(required=True),
@@ -64,6 +65,7 @@ class Register(Resource):
     @whitelist
     def post(self, uid=None, token=None):
         """Creates a row in Registrations table."""
-        DB.session.add(Registrations())
+        # pylint: disable=no-value-for-parameter
+        DB.session.add(Attendee())
         DB.session.commit()
         return 'posted!'

@@ -32,3 +32,4 @@ class Registrations(DB.Model):
 
         # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
+        

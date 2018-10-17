@@ -1,8 +1,5 @@
 """Defines RDBMS table for user model."""
 from uuid import uuid4
-from flask_sqlalchemy import SQLAlchemy
-
-DB = SQLAlchemy()
 
 class Attendee(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
@@ -16,9 +13,11 @@ class Attendee(DB.Model):
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
     university = DB.Column('school', DB.String(50), nullable=False)
+    school_year = DB.Column('school_year', DB.Integer, nullable=False)
     birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
-    short_answer = DB.Column("short_answer", DB.String(250), nullable=False)
+    short_answer1 = DB.Column("short_answer1", DB.String(250), nullable=False)
+    short_answer2 = DB.Column("short_answer2", DB.String(250), nullable=False)
 
     # optional fields
     optional_info = {}
@@ -33,7 +32,7 @@ class Attendee(DB.Model):
     optional_info["github"] = DB.Column("github", DB.String(50), nullable=True)
 
     # pylint: disable=line-too-long, too-many-arguments
-    def __init__(self, email, firstName, lastName, university, birthday, size, short_answer, **kwargs):
+    def __init__(self, email, firstName, lastName, university, birthday, size, short_answer1, short_answer2, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
         guid = uuid4()
@@ -49,7 +48,8 @@ class Attendee(DB.Model):
         self.university = university
         self.birthday = birthday
         self.size = size
-        self. short_answer = short_answer
+        self.short_answer1 = short_answer1
+        self.short_answer2 = short_answer2
 
         for key, value in kwargs.items():
             self.optional_info[str(key)] = str(value)

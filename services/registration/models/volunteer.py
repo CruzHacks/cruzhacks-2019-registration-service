@@ -14,12 +14,15 @@ class Volunteer(DB.model):
    last_name = DB.Column('last_name', DB.String(20), nullable=False)
    birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
    size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
-   short_answer = DB.Column("short_answer", DB.String(150), nullable=False)
+   short_answer = DB.Column("short_answer", DB.String(500), nullable=False)
    assoc_clubs = DB.Column("clubs", DB.String(150), nullable=False)
    availability = DB.Column(DB.String(100), nullable = False)
 
+   # optional field
+   dietary_rest = DB.Column("dietary_rest", DB.String(50), nullable=True)
+
    # pylint: disable=line-too-long, too-many-arguments
-   def __init__(email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability):
+   def __init__(email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability, **kwargs):
 
       # Still need public ID and private ID, generate them from unique email
       guid = uuid4()
@@ -37,6 +40,10 @@ class Volunteer(DB.model):
       self.assoc_clubs = assoc_clubs
       self.availability = availability
 
+      if len(kwargs == 1):
+         self.dietary_rest = kwargs['dietary_rest']
+
+
    def __repr__(self):
-      return "{ Attendee: email=%s, name=%s %s, school=%s }" % (
+      return "{ Volunteer: email=%s, name=%s %s, school=%s }" % (
          self.email, self.first_name, self.last_name, self.school)

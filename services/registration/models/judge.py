@@ -1,5 +1,7 @@
 """Defines RDBMS table for user model."""
 from uuid import uuid4
+from flask_sqlalchemy import SQLAlchemy
+DB = SQLAlchemy()
 
 class Judge(DB.model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
@@ -13,15 +15,15 @@ class Judge(DB.model):
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     company = DB.Column('company', DB.String(50), nullable=False)
-    short_answer1= DB.Column('short_answer1', DB.String(500), nullable=False)
-    short_answer2= DB.Column('short_answer2', DB.String(500), nullable=False)
+    short_answer1 = DB.Column('short_answer1', DB.String(500), nullable=False)
+    short_answer2 = DB.Column('short_answer2', DB.String(500), nullable=False)
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
 
     # optional fields
-    optional_fields = {}
+    optional_info = {}
 
-    optional_fields['github'] = DB.Column("github", DB.String(50), nullable=True)
-    optional_fields['linkedin'] = DB.Column("linkedin", DB.String(50), nullable=True)
+    optional_info['github'] = DB.Column("github", DB.String(50), nullable=True)
+    optional_info['linkedin'] = DB.Column("linkedin", DB.String(50), nullable=True)
     optional_info["dietary_rest"] = DB.Column("dietary_rest", DB.String(50), nullable=True)
 
     # pylint: disable=line-too-long, too-many-arguments

@@ -1,5 +1,7 @@
 """Defines RDBMS table for user model."""
 from uuid import uuid4
+from flask_sqlalchemy import SQLAlchemy
+DB = SQLAlchemy()
 
 class Attendee(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes

@@ -1,5 +1,7 @@
 """Defines RDBMS table for user model."""
 from uuid import uuid4
+from flask_sqlalchemy import SQLAlchemy
+DB = SQLAlchemy()
 
 class Volunteer(DB.model):
    # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
@@ -16,13 +18,13 @@ class Volunteer(DB.model):
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(500), nullable=False)
     assoc_clubs = DB.Column("clubs", DB.String(150), nullable=False)
-    availability = DB.Column(DB.String(100), nullable = False)
+    availability = DB.Column(DB.String(100), nullable=False)
 
     # optional field
     dietary_rest = DB.Column("dietary_rest", DB.String(50), nullable=True)
 
     # pylint: disable=line-too-long, too-many-arguments
-    def __init__(email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability, **kwargs):
+    def __init__(self, email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
         guid = uuid4()
@@ -40,7 +42,7 @@ class Volunteer(DB.model):
         self.assoc_clubs = assoc_clubs
         self.availability = availability
 
-        if len(kwargs == 1):
+        if len(kwargs) == 1:
             self.dietary_rest = kwargs['dietary_rest']
 
 

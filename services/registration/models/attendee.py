@@ -16,8 +16,8 @@ class Attendee(DB.Model):
     school_year = DB.Column('school_year', DB.Integer, nullable=False)
     birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
-    short_answer1 = DB.Column("short_answer1", DB.String(250), nullable=False)
-    short_answer2 = DB.Column("short_answer2", DB.String(250), nullable=False)
+    short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
+    short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
 
     # optional fields
     optional_info = {}

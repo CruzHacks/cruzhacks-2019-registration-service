@@ -1,3 +1,4 @@
+# pylint: disable-report=R0801
 """Defines RDBMS table for user model."""
 from uuid import uuid4
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ class Volunteer(DB.model):
     __tablename__ = 'volunteers'
 
     # required fields
+    # pylint: disable=duplicate-code
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
@@ -23,10 +25,11 @@ class Volunteer(DB.model):
     # optional field
     dietary_rest = DB.Column("dietary_rest", DB.String(50), nullable=True)
 
-    # pylint: disable=line-too-long, too-many-arguments
+    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
     def __init__(self, email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
+        # pylint: disable=duplicate-code
         guid = uuid4()
         self.private_id = str(guid)
 

@@ -1,3 +1,4 @@
+# pylint: disable-report=R0801
 """Defines RDBMS table for user model."""
 from uuid import uuid4
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ class Judge(DB.model):
     __tablename__ = 'judges'
 
     # required fields
+    # pylint: disable=duplicate-code
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
@@ -26,10 +28,11 @@ class Judge(DB.model):
     optional_info['linkedin'] = DB.Column("linkedin", DB.String(50), nullable=True)
     optional_info["dietary_rest"] = DB.Column("dietary_rest", DB.String(50), nullable=True)
 
-    # pylint: disable=line-too-long, too-many-arguments
+    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
     def __init__(self, email, first_name, last_name, size, short_answer1, short_answer2, company, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
+        # pylint: disable=duplicate-code
         guid = uuid4()
         self.private_id = str(guid)
 
@@ -40,13 +43,13 @@ class Judge(DB.model):
         self.first_name = first_name
         self.last_name = last_name
         self.size = size
-        self.short_answer = short_answer
+        self.short_answer1 = short_answer1
+        self.short_answer2 = short_answer2
         self.company = company
-        self.mentor_field = mentor_field
 
         for key, value in kwargs.items():
             self.optional_info[str(key)] = str(value)
-   
+
     def __repr__(self):
         return "{ Judge: email=%s, name=%s %s, company=%s }" % (
             self.email, self.first_name, self.last_name, self.company)

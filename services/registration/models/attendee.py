@@ -1,3 +1,4 @@
+# pylint: disable-report=R0801
 """Defines RDBMS table for user model."""
 from uuid import uuid4
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ class Attendee(DB.Model):
     __tablename__ = 'registrations'
 
     # required fields
+    # pylint: disable=duplicate-code
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
@@ -33,7 +35,7 @@ class Attendee(DB.Model):
     optional_info["linkedin"] = DB.Column("linkedin", DB.String(50), nullable=True)
     optional_info["github"] = DB.Column("github", DB.String(50), nullable=True)
 
-    # pylint: disable=line-too-long, too-many-arguments
+    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
     def __init__(self, email, firstName, lastName, university, birthday, size, short_answer1, short_answer2, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email

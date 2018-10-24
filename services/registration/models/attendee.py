@@ -1,7 +1,6 @@
 """Defines RDBMS table for user model."""
 from uuid import uuid4
 from flask_sqlalchemy import SQLAlchemy
-
 DB = SQLAlchemy()
 
 class Attendee(DB.Model):
@@ -10,15 +9,18 @@ class Attendee(DB.Model):
     __tablename__ = 'registrations'
 
     # required fields
+    # pylint: disable=duplicate-code
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    university = DB.Column('school', DB.String(50), nullable=False)
     birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
+    university = DB.Column('school', DB.String(50), nullable=False)
+    school_year = DB.Column('school_year', DB.Integer, nullable=False)
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
-    short_answer = DB.Column("short_answer", DB.String(250), nullable=False)
+    short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
+    short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
     checkedin = DB.Column("checked_in", DB.Boolean, nullable=False)
 
     # optional fields
@@ -33,8 +35,8 @@ class Attendee(DB.Model):
     optional_info["linkedin"] = DB.Column("linkedin", DB.String(50), nullable=True)
     optional_info["github"] = DB.Column("github", DB.String(50), nullable=True)
 
-    # pylint: disable=line-too-long, too-many-arguments
-    def __init__(self, email, firstName, lastName, university, birthday, size, short_answer, **kwargs):
+    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
+    def __init__(self, email, firstName, lastName, university, birthday, size, school_year, short_answer1, short_answer2, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
         guid = uuid4()
@@ -51,7 +53,9 @@ class Attendee(DB.Model):
         self.university = university
         self.birthday = birthday
         self.size = size
-        self. short_answer = short_answer
+        self.school_year = school_year
+        self.short_answer1 = short_answer1
+        self.short_answer2 = short_answer2
 
         for key, value in kwargs.items():
             self.optional_info[str(key)] = str(value)

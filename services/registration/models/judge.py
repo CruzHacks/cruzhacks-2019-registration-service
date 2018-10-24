@@ -34,13 +34,12 @@ class Judge(DB.model):
         # pylint: disable=duplicate-code
         guid = uuid4()
         self.private_id = str(guid)
-
         # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
 
-        self.email = email
         self.first_name = first_name
         self.last_name = last_name
+        self.email = email
         self.size = size
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2

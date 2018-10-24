@@ -15,9 +15,9 @@ class Attendee(DB.Model):
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
+    birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     university = DB.Column('school', DB.String(50), nullable=False)
     school_year = DB.Column('school_year', DB.Integer, nullable=False)
-    birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
     short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
     short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)

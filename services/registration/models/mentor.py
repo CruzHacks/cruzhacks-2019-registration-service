@@ -10,11 +10,11 @@ class Mentor(DB.model):
 
     # required fields
     # pylint: disable=duplicate-code
-    private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
+    private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
+    email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     company = DB.Column('company', DB.String(50), nullable=False)
     short_answer = DB.Column('short_answer', DB.String(500), nullable=False)
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
@@ -31,12 +31,11 @@ class Mentor(DB.model):
     def __init__(self, email, first_name, last_name, size, short_answer, company, mentor_field, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
+        # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         # pylint: disable=duplicate-code
         guid = uuid4()
-        self.private_id = str(guid)
-
-        # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         self.public_id = guid.int % (2**16)
+        self.private_id = str(guid)
 
         self.email = email
         self.first_name = first_name

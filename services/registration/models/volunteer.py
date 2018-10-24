@@ -13,9 +13,9 @@ class Volunteer(DB.model):
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
+    birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(500), nullable=False)
     assoc_clubs = DB.Column("clubs", DB.String(150), nullable=False)

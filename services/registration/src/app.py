@@ -21,8 +21,8 @@ with APP.app_context():
 
     # Set any dev deployment modes here.
     if DEPLOYMENT_MODE == 'dev':
-        APP.logger.warning('You are in development mode')
-        APP.logger.warning('Do not push code to master until out of development mode!')
+        APP.logger.warning('You are in development mode')  # pylint: disable=no-member
+        APP.logger.warning('Do not push code to master until out of development mode!') #pylint: disable=no-member
         APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
         APP.config['SQLALCHEMY_RECORD_QUERIES'] = True
         APP.config['SQLALCHEMY_ECHO'] = True

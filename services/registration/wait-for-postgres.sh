@@ -2,7 +2,6 @@
 # Waits for Postgres startup then executes the command.
 set -e
 
-DATABASE_URL=postgres://cbbyslspigkjpj:6bdfce2156b7a67dc4fb1f25473158ef38fb8b29621e6f9965abdb94d75e9852@ec2-54-83-29-34.compute-1.amazonaws.com:5432/dab7ehmia5n9vf
 db_url_regex="^[a-zA-Z]+://([a-zA-Z0-9]+):([a-zA-Z0-9]+)@([-_.a-zA-Z0-9]+):[0-9]+/([_a-zA-Z0-9]+)$"
 
 # Regex group name -> index maps.

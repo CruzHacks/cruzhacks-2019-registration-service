@@ -1,4 +1,3 @@
-# pylint: disable-report=R0801
 """Defines RDBMS table for user model."""
 from uuid import uuid4
 from flask_sqlalchemy import SQLAlchemy
@@ -37,7 +36,7 @@ class Attendee(DB.Model):
     optional_info["github"] = DB.Column("github", DB.String(50), nullable=True)
 
     # pylint: disable=line-too-long, too-many-arguments, duplicate-code
-    def __init__(self, email, firstName, lastName, university, birthday, size, short_answer1, short_answer2, **kwargs):
+    def __init__(self, email, firstName, lastName, university, birthday, size, school_year, short_answer1, short_answer2, **kwargs):
 
         # Still need public ID and private ID, generate them from unique email
         guid = uuid4()
@@ -54,6 +53,7 @@ class Attendee(DB.Model):
         self.university = university
         self.birthday = birthday
         self.size = size
+        self.school_year = school_year
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2
 

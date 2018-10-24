@@ -31,7 +31,7 @@ If you do not have access, you will receive this message:
 Example with the registration service and the `register` endpoint:
 
 ```bash
-curl -X GET https://cruzhacks2019-registration.herokuapp.com/register?uid=fourloko&token=salvia
+curl -X GET https://cruzhacks2019-registration.herokuapp.com/register?uid=fourloko\&token=salvia
 [{"private_id": "a2c41a62-4dd1-4d11-b8ad-c9d8a9a2525c", "public_id": 21084}, {"private_id": "fc0b90ee-2cdf-4788-a98a-99662facb85f", "public_id": 47199}]
 ```
 
@@ -62,9 +62,9 @@ Then hit your endpoints with the service's port.
 In this example, the registration service is bound to port 8000:
 
 ```bash
-curl -X POST localhost:8000/register?id=fourloko&token=balenciaga
-curl -X GET localhost:8000/register?id=fourloko&token=balenciaga
-curl -X GET localhost:8000/?id=fourloko&token=balenciaga
+curl -X POST localhost:8000/register?uid=fourloko\&token=balenciaga
+curl -X GET localhost:8000/register?uid=fourloko\&token=balenciaga
+curl -X GET localhost:8000/?uid=fourloko\&token=balenciaga
 ```
 
 Replace GET with whatever HTTP verb you want to hit the endpoint with.  You may need the `--data` argument (for POSTs usually), check `man curl` for more details.

@@ -2,7 +2,8 @@
 # https://github.com/damnever/pigar
 
 # app.py: 1
-Flask == 0.12.2
+py-bcrypt == 0.4
+Flask == 1.0.2
 Flask-SQLAlchemy == 2.3.2
 Flask-RESTful == 0.3.6
 gunicorn == 19.9.0
@@ -12,5 +13,7 @@ webargs == 4.0.0
 
 # Dev
 pytest
+pytest-mock
 autopep8
 pylint
+werkzeug

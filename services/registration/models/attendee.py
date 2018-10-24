@@ -19,7 +19,7 @@ class Attendee(DB.Model):
     birthday = DB.Column('birthday', DB.String(10), nullable=False) # MM-DD-YYYY
     size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(250), nullable=False)
-    checkedin = DB.Column("checked_in"), DB.Boolean, nullable=False)
+    checkedin = DB.Column("checked_in", DB.Boolean, nullable=False)
 
     # optional fields
     optional_info = {}

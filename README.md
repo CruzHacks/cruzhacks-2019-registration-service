@@ -16,13 +16,9 @@ Each service is hosted on Heroku.  URLs are of the form `https://cruzhacks2019-S
 
 APIs are secured with a whitelist of user/uid and pass/token request parameters.  PM a dev on the whitelist to be added.
 
-You can check your access by (with your own uid and token):
+There are also roles with access to different functions and endpoints, so make sure you're added to the right roles.
 
-```bash
-curl -X GET https://cruzhacks2019-registration.herokuapp.com/?uid=fourloko&token=salvia
-```
-
-If you do not have access, you will receive this message:
+If you do not have access to an endpoint, you will receive this message:
 
 ```bash
 {"message": "Unauthorized access.  This incident will be reported."}

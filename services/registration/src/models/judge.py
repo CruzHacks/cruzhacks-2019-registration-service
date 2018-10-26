@@ -30,7 +30,7 @@ class Judge(DB.Model):
 
     # pylint: disable=line-too-long, too-many-arguments, duplicate-code
     def __init__(self, email, first_name, last_name, size, short_answer1, short_answer2, company,
-                    github=None, linkedin=None, dietary_rest=None):
+                 github=None, linkedin=None, dietary_rest=None):
 
         # Still need public ID and private ID, generate them from unique email
         # pylint: disable=duplicate-code

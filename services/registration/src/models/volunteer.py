@@ -30,7 +30,7 @@ class Volunteer(DB.Model):
 
     # pylint: disable=line-too-long, too-many-arguments, duplicate-code
     def __init__(self, email, first_name, last_name, birthday, size, short_answer, assoc_clubs, availability,
-                    github=None, linkedin=None, dietary_rest=None):
+                 github=None, linkedin=None, dietary_rest=None):
 
         # Still need public ID and private ID, generate them from unique email
         # pylint: disable=duplicate-code

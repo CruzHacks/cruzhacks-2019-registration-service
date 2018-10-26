@@ -1,9 +1,8 @@
-"""Defines RDBMS table for user model."""
+"""Defines RDBMS table for Volunteer model."""
 from uuid import uuid4
-from flask_sqlalchemy import SQLAlchemy
-DB = SQLAlchemy()
+from registration.src.db import DB
 
-class Volunteer(DB.model):
+class Volunteer(DB.Model):
    # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a volunteer's submitted info."""
     __tablename__ = 'volunteers'
@@ -46,7 +45,6 @@ class Volunteer(DB.model):
 
         if len(kwargs) == 1:
             self.dietary_rest = kwargs['dietary_rest']
-
 
     def __repr__(self):
         return "{ Volunteer: email=%s, name=%s %s, school=%s }" % (

@@ -4,7 +4,7 @@ import os
 import pytest
 from werkzeug.exceptions import Unauthorized
 
-from registration.src.api import whitelist, WHITELIST_GIDS
+from registration.src.api.utils import whitelist, WHITELIST_GIDS
 
 class TestWhitelist:
     """Tests if a user can access a whitelisted function."""
@@ -14,7 +14,7 @@ class TestWhitelist:
     @pytest.fixture(autouse=True)
     def patch_is_whitelist_enabled(mocker):
         """Guarantees that the whitelist is enabled."""
-        mocker.patch('registration.src.api.IS_WHITELIST_ENABLED').return_value = True
+        mocker.patch('registration.src.api.utils.IS_WHITELIST_ENABLED').return_value = True
 
     @staticmethod
     @whitelist({WHITELIST_GIDS['dev']})

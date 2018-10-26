@@ -1,9 +1,8 @@
-"""Defines RDBMS table for user model."""
+"""Defines RDBMS table for Mentor model."""
 from uuid import uuid4
-from flask_sqlalchemy import SQLAlchemy
-DB = SQLAlchemy()
+from registration.src.db import DB
 
-class Mentor(DB.model):
+class Mentor(DB.Model):
    # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a mentor's submitted info."""
     __tablename__ = 'mentors'

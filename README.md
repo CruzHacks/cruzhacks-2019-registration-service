@@ -28,11 +28,38 @@ If you do not have access, you will receive this message:
 {"message": "Unauthorized access.  This incident will be reported."}
 ```
 
-Example with the registration service and the `register` endpoint:
+For a full list of parameters, please see the [API parameters](services/registration/src/api/attendees.py) and its [schema](services/registration/src/models/attendees.py).
+
+Examples with the registration service and the `register/attendee` endpoint:
 
 ```bash
-curl -X GET https://cruzhacks2019-registration.herokuapp.com/register?uid=fourloko\&token=salvia
-[{"private_id": "a2c41a62-4dd1-4d11-b8ad-c9d8a9a2525c", "public_id": 21084}, {"private_id": "fc0b90ee-2cdf-4788-a98a-99662facb85f", "public_id": 47199}]
+# Retrieve ALL users.  But we didn't add any yet!
+curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
+[]
+
+# Add user with unique email.
+curl -H "Content-Type: application/json" -X POST -d '{"uid": "amickey", "token": "salvia", "email": "salvia@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
+"{ Attendee: email=amickey@ucsc.edu, name=Allston Mickey, university=UCSC }"
+
+# Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
+[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+
+# Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia\\&email=salvia@ucsc.edu
+[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+
+# Add a second user.
+curl -H "Content-Type: application/json" -X POST -d '{"uid": "cruzhacks", "token": "plusULTRA", "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
+"{ Attendee: email=cruzhacks@ucsc.edu, name=Sammy Slug, university=UCSC }"
+
+# Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
+[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}, {"private_id": "18bb6669-6c35-4778-918c-10c4de2a094f", "public_id": 2383, "checked_in": false, "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+
+# Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia\\&email=cruzhacks@ucsc.edu
+[{"private_id": "18bb6669-6c35-4778-918c-10c4de2a094f", "public_id": 2383, "checked_in": false, "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
 ```
 
 ### Local development

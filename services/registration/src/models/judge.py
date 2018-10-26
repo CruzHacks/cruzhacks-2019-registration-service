@@ -1,9 +1,8 @@
-"""Defines RDBMS table for user model."""
+"""Defines RDBMS table for Judge model."""
 from uuid import uuid4
-from flask_sqlalchemy import SQLAlchemy
-DB = SQLAlchemy()
+from registration.src.db import DB
 
-class Judge(DB.model):
+class Judge(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a judge's submitted info."""
     __tablename__ = 'judges'

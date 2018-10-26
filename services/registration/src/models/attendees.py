@@ -10,7 +10,7 @@ class Attendees(DB.Model):
 
     # pylint: disable=duplicate-code
 
-    # Set by internally by us, not required for __init__().
+    # Set internally by us, not required for __init__().
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     checked_in = DB.Column("checked_in", DB.Boolean, nullable=False)

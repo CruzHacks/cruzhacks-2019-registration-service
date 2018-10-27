@@ -48,7 +48,6 @@ class AttendeeRegistration(Resource):
         'num_hacks': fields.String(missing=None),
         'workshop_ideas': fields.String(missing=None)
     })
-    @verify({GIDS['dev']})
     def post(self, uid, token, email, first_name, last_name, birthday,
              university, grad_year, shirt_size, short_answer1, short_answer2,
              gender, ethnicity, major, num_hacks, linkedin, github, dietary_rest, workshop_ideas):

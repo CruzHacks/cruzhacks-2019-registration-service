@@ -41,7 +41,6 @@ class JudgeRegistration(Resource):
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
     })
-    @verify({GIDS['dev']})
     def post(self, uid, token, email, first_name, last_name, company, shirt_size,
              short_answer1, short_answer2, github, linkedin, dietary_rest):
         """Inserts the user in the judges table.

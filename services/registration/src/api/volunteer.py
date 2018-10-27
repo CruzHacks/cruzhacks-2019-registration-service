@@ -42,7 +42,6 @@ class VolunteerRegistration(Resource):
         'assoc_clubs': fields.String(required=True),
         'availability': fields.String(required=True)
     })
-    @verify({GIDS['dev']})
     def post(self, uid, token, email, first_name, last_name, birthday, shirt_size,
              short_answer, assoc_clubs, availability, github, linkedin, dietary_rest):
         """Inserts the user in the mentors table.

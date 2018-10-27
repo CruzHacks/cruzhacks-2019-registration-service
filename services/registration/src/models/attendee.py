@@ -2,17 +2,16 @@
 from uuid import uuid4
 from registration.src.db import DB
 
-class Attendees(DB.Model):
+class Attendee(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a people's submitted registration info."""
     __tablename__ = 'attendees'
-
 
     # pylint: disable=duplicate-code
 
     # Set internally by us, not required for __init__().
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
-    public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
+    public_id = DB.Column('public_id', DB.String(36), unique=True, nullable=False)
     checked_in = DB.Column("checked_in", DB.Boolean, nullable=False)
 
     # NOT NULL
@@ -30,23 +29,20 @@ class Attendees(DB.Model):
     gender = DB.Column('gender', DB.String(1))
     ethnicity = DB.Column('ethnicity', DB.String(20))
     major = DB.Column('major', DB.String(20))
-    dietary_rest = DB.Column("dietary_rest", DB.String(50))
     num_hacks = DB.Column("num_hacks", DB.Integer)
-    linkedin = DB.Column("linkedin", DB.String(50))
     github = DB.Column("github", DB.String(50))
+    linkedin = DB.Column("linkedin", DB.String(50))
+    dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
 
     # pylint: disable=line-too-long, too-many-arguments, duplicate-code, too-many-locals
     def __init__(self, email, first_name, last_name, birthday, university, grad_year, shirt_size,
-                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None,
-                 dietary_rest=None, num_hacks=None, linkedin=None, github=None, workshop_ideas=None):
-
-        # Still need public ID and private ID, generate them from unique email
-        guid = uuid4()
-        self.private_id = str(guid)
-
-        # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
-        self.public_id = guid.int % (2**16)
+                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None, num_hacks=None,
+                 github=None, linkedin=None, dietary_rest=None, workshop_ideas=None):
+        
+        # pylint: disable=duplicate-code
+        self.private_id = str(uuid4())
+        self.public_id = str(uuid4())
         self.checked_in = False
 
         # Args.
@@ -64,10 +60,10 @@ class Attendees(DB.Model):
         self.gender = gender
         self.ethnicity = ethnicity
         self.major = major
-        self.dietary_rest = dietary_rest
         self.num_hacks = num_hacks
-        self.linkedin = linkedin
         self.github = github
+        self.linkedin = linkedin
+        self.dietary_rest = dietary_rest
         self.workshop_ideas = workshop_ideas
 
     def __repr__(self):

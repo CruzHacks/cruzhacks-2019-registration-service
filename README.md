@@ -28,34 +28,148 @@ For a full list of parameters, please see the [API parameters](services/registra
 
 Examples with the registration service and the `register/attendee` endpoint:
 
-```bash
-# Retrieve ALL users.  But we didn't add any yet!
-curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
+```json
+// Retrieve ALL users.  But we didn't add any yet!
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
 []
 
-# Add user with unique email.
-curl -H "Content-Type: application/json" -X POST -d '{"uid": "amickey", "token": "salvia", "email": "salvia@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
+// Add user with unique email.
+curl -H "Content-Type: application/json" -X POST -d '{"uid": "amickey", "token": "salvia", "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
 "{ Attendee: email=amickey@ucsc.edu, name=Allston Mickey, university=UCSC }"
 
-# Retrieve ALL users.
-curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
-[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+// Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
+[
+  {
+    "private_id": "b29b954d-ad9a-43cd-bb8b-2fbb7d68b799",
+    "public_id": "7ef1f535-5cbe-4ca4-9c0a-057e0475db0b",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
 
-# Retrieve user by email.
-curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia\\&email=salvia@ucsc.edu
-[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+// Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia&email=amickey@ucsc.edu | jq '.'
+[
+  {
+    "private_id": "b29b954d-ad9a-43cd-bb8b-2fbb7d68b799",
+    "public_id": "7ef1f535-5cbe-4ca4-9c0a-057e0475db0b",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
 
-# Add a second user.
+// Add a second user.
 curl -H "Content-Type: application/json" -X POST -d '{"uid": "cruzhacks", "token": "plusULTRA", "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
 "{ Attendee: email=cruzhacks@ucsc.edu, name=Sammy Slug, university=UCSC }"
 
-# Retrieve ALL users.
-curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia
-[{"private_id": "38d14318-1fac-49a2-a0fc-61594dd12ce5", "public_id": 11493, "checked_in": false, "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}, {"private_id": "18bb6669-6c35-4778-918c-10c4de2a094f", "public_id": 2383, "checked_in": false, "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+// Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
+[
+  {
+    "private_id": "a12a61d9-2424-4a31-a8fd-1cdf83dcf467",
+    "public_id": "8c87ddbb-3049-477c-a4fc-f2e0613a59a2",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  },
+  {
+    "private_id": "53db9ffe-6d50-4e3b-b5a8-c13a6ac267d9",
+    "public_id": "7ffe1b6c-8f7e-4aec-8c87-4294f365a151",
+    "checked_in": false,
+    "email": "cruzhacks@ucsc.edu",
+    "first_name": "Sammy",
+    "last_name": "Slug",
+    "birthday": "1986-02-15",
+    "university": "UCSC",
+    "grad_year": 2020,
+    "shirt_size": "XL",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
 
-# Retrieve user by email.
-curl -X GET localhost:8000/register/attendee?uid=foo\\&token=salvia\\&email=cruzhacks@ucsc.edu
-[{"private_id": "18bb6669-6c35-4778-918c-10c4de2a094f", "public_id": 2383, "checked_in": false, "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "gender": null, "ethnicity": null, "major": null, "dietary_rest": null, "num_hacks": null, "linkedin": null, "github": null, "workshop_ideas": null}]
+// Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia&email=cruzhacks@ucsc.edu | jq '.'
+[
+  {
+    "private_id": "53db9ffe-6d50-4e3b-b5a8-c13a6ac267d9",
+    "public_id": "7ffe1b6c-8f7e-4aec-8c87-4294f365a151",
+    "checked_in": false,
+    "email": "cruzhacks@ucsc.edu",
+    "first_name": "Sammy",
+    "last_name": "Slug",
+    "birthday": "1986-02-15",
+    "university": "UCSC",
+    "grad_year": 2020,
+    "shirt_size": "XL",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
 ```
 
 ### Local development

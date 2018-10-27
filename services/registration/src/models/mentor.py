@@ -9,8 +9,8 @@ class Mentor(DB.Model):
 
     # required fields
     # pylint: disable=duplicate-code
-    public_id = DB.Column('public_id', DB.Integer, unique=True, nullable=False)
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
+    public_id = DB.Column('public_id', DB.String(36), unique=True, nullable=False)
     checked_in = DB.Column('checked_in', DB.Boolean, nullable=False)
 
     # Not NULLABLE
@@ -18,35 +18,34 @@ class Mentor(DB.Model):
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
     company = DB.Column('company', DB.String(50), nullable=False)
+    shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column('short_answer', DB.String(500), nullable=False)
-    size = DB.Column('t-shirt_size', DB.String(5), nullable=False)
     mentor_field = DB.Column('mentor_field', DB.String(25), nullable=False)
 
     # NULLABLE
-    github = DB.Column("github", DB.String(50), nullable=True)
-    linkedin = DB.Column("linkedin", DB.String(50), nullable=True)
-    dietary_rest = DB.Column("dietary_rest", DB.String(50), nullable=True)
+    github = DB.Column('github', DB.String(50), nullable=True)
+    linkedin = DB.Column('linkedin', DB.String(50), nullable=True)
+    dietary_rest = DB.Column('dietary_rest', DB.String(50), nullable=True)
 
     # pylint: disable=line-too-long, too-many-arguments, duplicate-code
-    def __init__(self, email, first_name, last_name, size, short_answer, company, mentor_field,
+    def __init__(self, email, first_name, last_name, company, shirt_size, short_answer, mentor_field,
                  github=None, linkedin=None, dietary_rest=None):
 
-        # Still need public ID and private ID, generate them from unique email
-        # guid.int is 128 bits.  Save some space since there won't be 2**128 applicants.
         # pylint: disable=duplicate-code
-        guid = uuid4()
-        self.public_id = guid.int % (2**16)
-        self.private_id = str(guid)
+        self.private_id = str(uuid4())
+        self.public_id = str(uuid4())
         self.checked_in = False
 
+        # Args.
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.size = size
-        self.short_answer = short_answer
         self.company = company
+        self.shirt_size = shirt_size
+        self.short_answer = short_answer
         self.mentor_field = mentor_field
 
+        # Kwargs.
         self.github = github
         self.linkedin = linkedin
         self.dietary_rest = dietary_rest

@@ -34,7 +34,7 @@ curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
 []
 
 // Add user with unique email.
-curl -H "Content-Type: application/json" -X POST -d '{"uid": "amickey", "token": "salvia", "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
+curl -H "Content-Type: application/json" -X POST -d '{"email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
 "{ Attendee: email=amickey@ucsc.edu, name=Allston Mickey, university=UCSC }"
 
 // Retrieve ALL users.
@@ -92,7 +92,7 @@ curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia\&email=amicke
 ]
 
 // Add a second user.
-curl -H "Content-Type: application/json" -X POST -d '{"uid": "cruzhacks", "token": "plusULTRA", "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "dietary_rest": "salt"}' localhost:8000/register/attendee
+curl -H "Content-Type: application/json" -X POST -d '{"email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "dietary_rest": "salt"}' localhost:8000/register/attendee
 "{ Attendee: email=cruzhacks@ucsc.edu, name=Sammy Slug, university=UCSC }"
 
 // Retrieve ALL users.

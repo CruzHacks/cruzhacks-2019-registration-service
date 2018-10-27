@@ -1,14 +1,15 @@
-"""API resources for the mentors table."""
+"""API resources for the volunteers table."""
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
-from registration.src.models.mentor import Mentor
+from registration.src.api.utils.parsing import datestring_to_datetime
+from registration.src.models.volunteer import Volunteer
 
 
-class MentorRegistration(Resource):
+class VolunteerRegistration(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""
     @use_kwargs(base.SimilarKwargs.GET)
@@ -32,17 +33,18 @@ class MentorRegistration(Resource):
                  404: email is not found in the DB
                  422: missing required parameter(s)
         """
-        return base.get_user(Mentor, email)
+        return base.get_user(Volunteer, email)
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'company': fields.String(required=True),
+        'birthday': fields.String(required=True),
         'short_answer': fields.String(required=True),
-        'mentor_field': fields.String(required=True)
+        'assoc_clubs': fields.String(required=True),
+        'availability': fields.String(required=True)
     })
     @verify({GIDS['dev']})
-    def post(self, uid, token, email, first_name, last_name, company, shirt_size,
-             short_answer, mentor_field, github, linkedin, dietary_rest):
+    def post(self, uid, token, email, first_name, last_name, birthday, shirt_size,
+             short_answer, assoc_clubs, availability, github, linkedin, dietary_rest):
         """Inserts the user in the mentors table.
         Since this hooks into the DB, each field has specific constraints.
         Please check registration.src.models.mentor for more information.
@@ -61,14 +63,16 @@ class MentorRegistration(Resource):
         :type  first_name: string
         :param last_name: user's last name
         :type  last_name: string
-        :param company: user's company
-        :type  company: string
+        :param birthday: date of birth in the form YYYY-MM-DD
+        :type  birthday: string
         :param shirt_size: XS, S, M, ..., shirt size to take into consideration for orders
         :type  shirt_size: string
         :param short_answer: user's reponse to the short answer question
         :type  short_answer: string
-        :param mentor_field: what the mentor wants to help in (e.g. React)
-        :type  mentor_field: string
+        :param assoc_clubs: clubs that the user is associated with
+        :type  assoc_clubs: comma-delimited list of string
+        :param availability: when the user is available to volunteer
+        :type  availability: comma-delimited list of strings
         :param github: [OPTIONAL] Github profile URL
         :type  github: string
         :param linkedin: [OPTIONAL] LinkedIn profile URL
@@ -83,8 +87,9 @@ class MentorRegistration(Resource):
                  500: internal DB error, usually because input did not match the constraints
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
-        mentor = Mentor(
-            email, first_name, last_name, company, shirt_size, short_answer, mentor_field,
-            github=github, linkedin=linkedin, dietary_rest=dietary_rest
+        volunteer = Volunteer(
+            email, first_name, last_name, datestring_to_datetime(birthday), shirt_size,
+            short_answer, assoc_clubs, availability, github=github, linkedin=linkedin,
+            dietary_rest=dietary_rest
         )
-        return base.commit_user(mentor)
+        return base.commit_user(volunteer)

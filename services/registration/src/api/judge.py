@@ -1,30 +1,22 @@
 """API resources for the judges table."""
-import logging
-
 from webargs import fields
 from webargs.flaskparser import use_kwargs
-from flask_restful import abort, Resource
+from flask_restful import Resource
 
-from registration.src.api.utils import (
-    is_valid_email, whitelist, WHITELIST_GIDS
-)
-from registration.src.db import DB, query_response_to_dict
+from registration.src.api import base
+from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.judge import Judge
-
-LOG = logging.getLogger(__name__)
 
 
 class JudgeRegistration(Resource):
-    # pylint: disable=no-member,unused-argument,too-many-arguments,too-many-locals,no-self-use
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""
-    @use_kwargs({
-        'uid': fields.String(required=True),
-        'token': fields.String(required=True),
-        'email': fields.String(missing=None),
-    })
-    @whitelist({WHITELIST_GIDS['dev']})
+
+    @use_kwargs(base.SimilarKwargs.GET)
+    @verify({GIDS['dev']})
     def get(self, uid, token, email):
-        """Gets a user's entry by their email.
+        """Gets a user's entry by the model and their email.
+        Gets all users by the model if email is omitted.
 
         :param uid: UID to authenticate as
         :type  uid: string
@@ -33,34 +25,23 @@ class JudgeRegistration(Resource):
         :param email: [OPTIONAL] email to query for
         :type  email: string
         :returns: If an email is given, returns a list containing that one result
-                  (because email is unique).  If there is no email in the
-                  request, returns all users.
+                    (because email is unique).  If there is no email in the
+                    request, returns all users.
         :rtype: list of dicts
         :aborts: 400: email is given but with invalid format
+                 401: invalid permissions (not on whitelist or not in a required role)
                  404: email is not found in the DB
                  422: missing required parameter(s)
         """
-        if email is not None and not is_valid_email(email):
-            abort(400, message='Invalid email format')
-        query = Judge.query
-        resp = query.all() if email is None else [query.filter_by(email=email).first_or_404()]
-        return [query_response_to_dict(r) for r in resp]
+        return base.get_user(Judge, email)
 
     @use_kwargs({
-        'uid': fields.String(required=True),
-        'token': fields.String(required=True),
-        'email': fields.String(required=True),
-        'first_name': fields.String(required=True),
-        'last_name': fields.String(required=True),
+        **base.SimilarKwargs.POST,
         'company': fields.String(required=True),
-        'shirt_size': fields.String(required=True),
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
-        'github': fields.String(missing=None),
-        'linkedin': fields.String(missing=None),
-        'dietary_rest': fields.String(missing=None)
     })
-    @whitelist({WHITELIST_GIDS['dev']})
+    @verify({GIDS['dev']})
     def post(self, uid, token, email, first_name, last_name, company, shirt_size,
              short_answer1, short_answer2, github, linkedin, dietary_rest):
         """Inserts the user in the judges table.
@@ -98,14 +79,13 @@ class JudgeRegistration(Resource):
                              to a list of strings)
         :returns: representation of the row that was posted
         :rtype: string
-        :aborts: 422: missing required parameter(s)
+        :aborts: 401: invalid permissions (not on whitelist or not in a required role)
+                 422: missing required parameter(s)
                  500: internal DB error, usually because input did not match the constraints
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
-        row = Judge(
+        judge = Judge(
             email, first_name, last_name, company, shirt_size, short_answer1, short_answer2,
             github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
-        DB.session.add(row)
-        DB.session.commit()
-        return repr(row)
+        return base.commit_user(judge)

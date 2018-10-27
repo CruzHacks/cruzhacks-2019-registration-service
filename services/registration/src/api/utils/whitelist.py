@@ -1,14 +1,14 @@
-"""Utility functions for handling API requests."""
-from datetime import datetime
+"""Whitelisting and authorizing users."""
 from functools import wraps
 import os
 
 import bcrypt
 from flask_restful import abort
+from webargs import fields
 
 from registration.src import IS_WHITELIST_ENABLED
 
-WHITELIST_GIDS = {
+GIDS = {
     'admin': 0,
     'dev': 1,
     'team': 2,
@@ -16,8 +16,12 @@ WHITELIST_GIDS = {
     'mentor': 4
 }
 
+FIELDS = {
+    'uid': fields.String(required=True),  # pylint: disable=no-member
+    'token': fields.String(required=True)  # pylint: disable=no-member
+}
 
-def whitelist(gids):
+def verify(gids):
     """Decorator to verify whitelisted users before continuing.
 
     :param gids: Group IDs that can access the wrapped function.
@@ -32,7 +36,7 @@ def whitelist(gids):
 
                     # Ensure that the user has at least one matching gid.
                     groups = os.environ['{}_groups'.format(uid)].split(',')
-                    assert not gids.isdisjoint({WHITELIST_GIDS[g] for g in groups})
+                    assert not gids.isdisjoint({GIDS[g] for g in groups})
 
                     token = kwargs['token']
                     salt = os.environ['{}_salt'.format(uid)]
@@ -43,28 +47,3 @@ def whitelist(gids):
             return func(*args, **kwargs)
         return wrapper
     return decorator
-
-def is_valid_email(email):
-    """
-    Ensures an email has a very basic, possibly correct format.
-
-    An email may have invalid characters or an invalid domain,
-    but that will be found when the user does not confirm an email.
-    """
-    try:
-        split = email.split('@')
-        assert len(split) == 2
-        domain = split[1]
-        assert '.' in domain
-    except AssertionError:
-        return False
-    return True
-
-def datestring_to_datetime(datestring):
-    """Converts a date (as a string) to a datetime object.
-
-    :param datestring: date in the format of 'yyyy-mm-dd'
-    :type  datestring: string
-    :rtype: datetime
-    """
-    return datetime(*[int(s) for s in datestring.split('-')])

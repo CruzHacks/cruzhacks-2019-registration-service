@@ -1,4 +1,5 @@
 """Defines RDBMS table for Judge model."""
+# pylint: disable=duplicate-code
 from uuid import uuid4
 from registration.src.db import DB
 
@@ -6,8 +7,6 @@ class Judge(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a judge's submitted info."""
     __tablename__ = 'judges'
-
-    # pylint: disable=duplicate-code
 
     # set internally
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
@@ -28,11 +27,10 @@ class Judge(DB.Model):
     linkedin = DB.Column("linkedin", DB.String(50))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
 
-    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
-    def __init__(self, email, first_name, last_name, company, shirt_size, short_answer1, short_answer2,
-                 github=None, linkedin=None, dietary_rest=None):
+    # pylint: disable=too-many-arguments
+    def __init__(self, email, first_name, last_name, company, shirt_size, short_answer1,
+                 short_answer2, github=None, linkedin=None, dietary_rest=None):
 
-        # pylint: disable=duplicate-code
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
         self.checked_in = False

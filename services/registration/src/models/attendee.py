@@ -1,4 +1,5 @@
 """Defines RDBMS table for Attendee model."""
+# pylint: disable=duplicate-code
 from uuid import uuid4
 from registration.src.db import DB
 
@@ -6,8 +7,6 @@ class Attendee(DB.Model):
     # pylint: disable=no-member, too-few-public-methods, too-many-instance-attributes
     """Table of a people's submitted registration info."""
     __tablename__ = 'attendees'
-
-    # pylint: disable=duplicate-code
 
     # Set internally by us, not required for __init__().
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
@@ -35,12 +34,12 @@ class Attendee(DB.Model):
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
 
-    # pylint: disable=line-too-long, too-many-arguments, duplicate-code, too-many-locals
+    # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, birthday, university, grad_year, shirt_size,
-                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None, num_hacks=None,
-                 github=None, linkedin=None, dietary_rest=None, workshop_ideas=None):
-        
-        # pylint: disable=duplicate-code
+                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None,
+                 num_hacks=None, github=None, linkedin=None, dietary_rest=None,
+                 workshop_ideas=None):
+
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
         self.checked_in = False

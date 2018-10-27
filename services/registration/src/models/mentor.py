@@ -1,4 +1,5 @@
 """Defines RDBMS table for Mentor model."""
+# pylint: disable=duplicate-code
 from uuid import uuid4
 from registration.src.db import DB
 
@@ -8,7 +9,6 @@ class Mentor(DB.Model):
     __tablename__ = 'mentors'
 
     # required fields
-    # pylint: disable=duplicate-code
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.String(36), unique=True, nullable=False)
     checked_in = DB.Column('checked_in', DB.Boolean, nullable=False)
@@ -27,11 +27,10 @@ class Mentor(DB.Model):
     linkedin = DB.Column('linkedin', DB.String(50), nullable=True)
     dietary_rest = DB.Column('dietary_rest', DB.String(50), nullable=True)
 
-    # pylint: disable=line-too-long, too-many-arguments, duplicate-code
-    def __init__(self, email, first_name, last_name, company, shirt_size, short_answer, mentor_field,
-                 github=None, linkedin=None, dietary_rest=None):
+    # pylint: disable=too-many-arguments
+    def __init__(self, email, first_name, last_name, company, shirt_size, short_answer,
+                 mentor_field, github=None, linkedin=None, dietary_rest=None):
 
-        # pylint: disable=duplicate-code
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
         self.checked_in = False

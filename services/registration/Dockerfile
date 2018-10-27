@@ -15,7 +15,7 @@ RUN pip install --upgrade pip
 RUN pip install -r /usr/src/app/registration/requirements.txt
 
 # Config settings to load BEFORE the entry point of the container.
-ENV GUNICORN_AUTO_RELOAD="ON"
+ENV GUNICORN_AUTO_RELOAD="OFF"
 ENV PYTHONPATH="$PYTHONPATH:/usr/src/app:/usr/local/lib:/usr/local/bin"
 
 CMD /usr/src/app/registration/wait-for-postgres.sh gunicorn registration.wsgi --config=/usr/src/app/registration/gunicorn.py

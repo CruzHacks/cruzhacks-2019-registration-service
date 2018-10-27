@@ -11,7 +11,7 @@ services:
     working_dir: /usr/src/app/registration
     environment:  # Config settings to load AFTER the entry point of the container.
       - PYTHONPATH="$PYTHONPATH:/usr/src/app:/usr/local/lib:/usr/local/bin"
-      - DEPLOYMENT_MODE=dev
+      - DEPLOYMENT_MODE=prod
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/cruzhacks_db
       - IS_WHITELIST_ENABLED=False
     ports:

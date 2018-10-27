@@ -16,23 +16,160 @@ Each service is hosted on Heroku.  URLs are of the form `https://cruzhacks2019-S
 
 APIs are secured with a whitelist of user/uid and pass/token request parameters.  PM a dev on the whitelist to be added.
 
-You can check your access by (with your own uid and token):
+There are also roles with access to different functions and endpoints, so make sure you're added to the right roles.
 
-```bash
-curl -X GET https://cruzhacks2019-registration.herokuapp.com/?uid=fourloko&token=salvia
-```
-
-If you do not have access, you will receive this message:
+If you do not have access to an endpoint, you will receive this message:
 
 ```bash
 {"message": "Unauthorized access.  This incident will be reported."}
 ```
 
-Example with the registration service and the `register` endpoint:
+For a full list of parameters, please see the [API parameters](services/registration/src/api/attendees.py) and its [schema](services/registration/src/models/attendees.py).
 
-```bash
-curl -X GET https://cruzhacks2019-registration.herokuapp.com/register?uid=fourloko\&token=salvia
-[{"private_id": "a2c41a62-4dd1-4d11-b8ad-c9d8a9a2525c", "public_id": 21084}, {"private_id": "fc0b90ee-2cdf-4788-a98a-99662facb85f", "public_id": 47199}]
+Examples with the registration service and the `register/attendee` endpoint:
+
+```json
+// Retrieve ALL users.  But we didn't add any yet!
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
+[]
+
+// Add user with unique email.
+curl -H "Content-Type: application/json" -X POST -d '{"uid": "amickey", "token": "salvia", "email": "amickey@ucsc.edu", "first_name": "Allston", "last_name": "Mickey", "birthday": "1998-03-29", "university": "UCSC", "grad_year": 2019, "shirt_size": "M", "short_answer1": "sa1", "short_answer2": "sa2"}' localhost:8000/register/attendee
+"{ Attendee: email=amickey@ucsc.edu, name=Allston Mickey, university=UCSC }"
+
+// Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
+[
+  {
+    "private_id": "b29b954d-ad9a-43cd-bb8b-2fbb7d68b799",
+    "public_id": "7ef1f535-5cbe-4ca4-9c0a-057e0475db0b",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
+
+// Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia\&email=amickey@ucsc.edu | jq '.'
+[
+  {
+    "private_id": "b29b954d-ad9a-43cd-bb8b-2fbb7d68b799",
+    "public_id": "7ef1f535-5cbe-4ca4-9c0a-057e0475db0b",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
+
+// Add a second user.
+curl -H "Content-Type: application/json" -X POST -d '{"uid": "cruzhacks", "token": "plusULTRA", "email": "cruzhacks@ucsc.edu", "first_name": "Sammy", "last_name": "Slug", "birthday": "1986-02-15", "university": "UCSC", "grad_year": 2020, "shirt_size": "XL", "short_answer1": "sa1", "short_answer2": "sa2", "dietary_rest": "salt"}' localhost:8000/register/attendee
+"{ Attendee: email=cruzhacks@ucsc.edu, name=Sammy Slug, university=UCSC }"
+
+// Retrieve ALL users.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia | jq '.'
+[
+  {
+    "private_id": "a12a61d9-2424-4a31-a8fd-1cdf83dcf467",
+    "public_id": "8c87ddbb-3049-477c-a4fc-f2e0613a59a2",
+    "checked_in": false,
+    "email": "amickey@ucsc.edu",
+    "first_name": "Allston",
+    "last_name": "Mickey",
+    "birthday": "1998-03-29",
+    "university": "UCSC",
+    "grad_year": 2019,
+    "shirt_size": "M",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  },
+  {
+    "private_id": "53db9ffe-6d50-4e3b-b5a8-c13a6ac267d9",
+    "public_id": "7ffe1b6c-8f7e-4aec-8c87-4294f365a151",
+    "checked_in": false,
+    "email": "cruzhacks@ucsc.edu",
+    "first_name": "Sammy",
+    "last_name": "Slug",
+    "birthday": "1986-02-15",
+    "university": "UCSC",
+    "grad_year": 2020,
+    "shirt_size": "XL",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
+
+// Retrieve user by email.
+curl -X GET localhost:8000/register/attendee?uid=foo\&token=salvia\&email=cruzhacks@ucsc.edu | jq '.'
+[
+  {
+    "private_id": "53db9ffe-6d50-4e3b-b5a8-c13a6ac267d9",
+    "public_id": "7ffe1b6c-8f7e-4aec-8c87-4294f365a151",
+    "checked_in": false,
+    "email": "cruzhacks@ucsc.edu",
+    "first_name": "Sammy",
+    "last_name": "Slug",
+    "birthday": "1986-02-15",
+    "university": "UCSC",
+    "grad_year": 2020,
+    "shirt_size": "XL",
+    "short_answer1": "sa1",
+    "short_answer2": "sa2",
+    "gender": null,
+    "ethnicity": null,
+    "major": null,
+    "num_hacks": null,
+    "github": null,
+    "linkedin": null,
+    "dietary_rest": null,
+    "workshop_ideas": null
+  }
+]
 ```
 
 ### Local development

@@ -27,7 +27,7 @@ jobs:
           name: Check Code For Style Compliance
           command: |
             echo "Running Linter"
-            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; pylint $service; fi; done
+            for service in $(ls -d services/*/); do reqs=${service%?}/requirements.txt; if [[ -e $reqs ]]; then sudo pip install -r $reqs; pylint --rcfile=.pylintrc $service; fi; done
             echo "Linting Completed"
 
 workflows:

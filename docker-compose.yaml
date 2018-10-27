@@ -24,7 +24,6 @@ services:
     image: postgres:10-alpine
     volumes:
       # Allows persistent data by syncing the local dir with the container's dir.
-      # Heroku doesn't support 'volumes' tag so we need to figure something out.
       - ./postgres/data:/var/lib/postgresql/data  # /var/lib/postgresql/data is the default for PGDATA variable.
     environment:
       - POSTGRES_PASSWORD=password  # This is only used for local testing so it doesn't matter.

@@ -1,0 +1,7 @@
+[MESSAGES CONTROL]
+
+disable=duplicate-code,
+
+[REPORTS]
+
+disable-report=R0801

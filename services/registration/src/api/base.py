@@ -19,7 +19,6 @@ class SimilarKwargs:
 
     # Used in POST requests.
     POST = {
-        **whitelist.FIELDS,
         'email': fields.String(required=True),
         'first_name': fields.String(required=True),
         'last_name': fields.String(required=True),

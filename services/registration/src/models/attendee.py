@@ -36,7 +36,7 @@ class Attendee(DB.Model):
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
 
     # pylint: disable=too-many-arguments, too-many-locals
-    def __init__(self, email, first_name, last_name, birthday, university, grad_year, shirt_size,
+    def __init__(self, email, first_name, last_name, age, university, grad_year, shirt_size,
                  short_answer1, short_answer2, phone, gender=None, ethnicity=None, major=None,
                  num_hacks=None, github=None, linkedin=None, dietary_rest=None,
                  workshop_ideas=None):
@@ -49,7 +49,7 @@ class Attendee(DB.Model):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.age = birthday
+        self.age = age
         self.university = university
         self.grad_year = grad_year
         self.shirt_size = shirt_size

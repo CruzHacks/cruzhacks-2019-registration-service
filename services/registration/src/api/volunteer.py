@@ -37,7 +37,7 @@ class VolunteerRegistration(Resource):
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'birthday': fields.String(required=True),
+        'age': fields.String(required=True),
         'short_answer': fields.String(required=True),
         'assoc_clubs': fields.String(required=True),
         'availability': fields.String(required=True)
@@ -87,7 +87,7 @@ class VolunteerRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         volunteer = Volunteer(
-            email, first_name, last_name, datestring_to_datetime(birthday), shirt_size,
+            email, first_name, last_name, age, shirt_size,
             short_answer, assoc_clubs, availability, github=github, linkedin=linkedin,
             dietary_rest=dietary_rest
         )

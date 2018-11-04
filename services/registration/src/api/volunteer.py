@@ -5,7 +5,6 @@ from flask_restful import Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
-from registration.src.api.utils.parsing import datestring_to_datetime
 from registration.src.models.volunteer import Volunteer
 
 
@@ -37,12 +36,12 @@ class VolunteerRegistration(Resource):
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'birthday': fields.String(required=True),
+        'age': fields.Int(required=True),
         'short_answer': fields.String(required=True),
         'assoc_clubs': fields.String(required=True),
         'availability': fields.String(required=True)
     })
-    def post(self, email, first_name, last_name, birthday, shirt_size,
+    def post(self, email, first_name, last_name, age, shirt_size,
              short_answer, assoc_clubs, availability, github, linkedin, dietary_rest):
         """Inserts the user in the mentors table.
         Since this hooks into the DB, each field has specific constraints.
@@ -87,7 +86,7 @@ class VolunteerRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         volunteer = Volunteer(
-            email, first_name, last_name, datestring_to_datetime(birthday), shirt_size,
+            email, first_name, last_name, age, shirt_size,
             short_answer, assoc_clubs, availability, github=github, linkedin=linkedin,
             dietary_rest=dietary_rest
         )

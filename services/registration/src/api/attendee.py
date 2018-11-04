@@ -5,7 +5,7 @@ from flask_restful import Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
-from registration.src.api.utils.parsing import datestring_to_datetime
+from registration.src.api.utils.parsing import strip_non_num
 from registration.src.models.attendee import Attendee
 
 
@@ -37,19 +37,20 @@ class AttendeeRegistration(Resource):
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'birthday': fields.String(required=True),
+        'age': fields.Int(required=True),
         'university': fields.String(required=True),
         'grad_year': fields.Int(required=True),
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
+        'phone': fields.String(required=True),
         'gender': fields.String(missing=None),
         'ethnicity': fields.String(missing=None),
         'major': fields.String(missing=None),
         'num_hacks': fields.String(missing=None),
         'workshop_ideas': fields.String(missing=None)
     })
-    def post(self, email, first_name, last_name, birthday,
-             university, grad_year, shirt_size, short_answer1, short_answer2,
+    def post(self, email, first_name, last_name, age,
+             university, grad_year, shirt_size, short_answer1, short_answer2, phone,
              gender, ethnicity, major, num_hacks, linkedin, github, dietary_rest, workshop_ideas):
         """Inserts the user in the attendees table.
         Since this hooks into the DB, each field has specific constraints.
@@ -106,9 +107,9 @@ class AttendeeRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         attendee = Attendee(
-            email, first_name, last_name, datestring_to_datetime(birthday), university,
-            grad_year, shirt_size, short_answer1, short_answer2, gender=gender,
-            ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
+            email, first_name, last_name, age, university,
+            grad_year, shirt_size, short_answer1, short_answer2, strip_non_num(phone),
+            gender=gender, ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
             linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas
         )
         return base.commit_user(attendee)

@@ -20,7 +20,7 @@ class Mentor(DB.Model):
     company = DB.Column('company', DB.String(50), nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column('short_answer', DB.String(500), nullable=False)
-    mentor_field = DB.Column('mentor_field', DB.String(25), nullable=False)
+    mentor_field = DB.Column('mentor_field', DB.String(128), nullable=False)
 
     # NULLABLE
     github = DB.Column('github', DB.String(80), nullable=True)

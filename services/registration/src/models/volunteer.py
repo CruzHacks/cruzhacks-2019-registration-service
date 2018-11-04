@@ -21,7 +21,7 @@ class Volunteer(DB.Model):
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(500), nullable=False)
     assoc_clubs = DB.Column("assoc_clubs", DB.String(150), nullable=False)
-    availability = DB.Column(DB.String(100), nullable=False)
+    availability = DB.Column(DB.String(150), nullable=False)
 
     # NULLABLE
     github = DB.Column("github", DB.String(80))

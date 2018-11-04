@@ -1,6 +1,7 @@
 """Initializes and configures Flask APP, including DB and API endpoints."""
 import os
 from flask import Flask
+from flask_cors import CORS
 from registration.src import DEPLOYMENT_MODE
 from registration.src.db import DB
 from registration.src.api import API
@@ -16,6 +17,7 @@ with APP.app_context():
     APP.config['SQLALCHEMY_RECORD_QUERIES'] = False
     APP.config['SQLALCHEMY_ECHO'] = False
 
+    CORS(APP)
     DB.init_app(APP)
     API.init_app(APP)
 

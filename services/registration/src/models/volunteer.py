@@ -24,8 +24,8 @@ class Volunteer(DB.Model):
     availability = DB.Column(DB.String(100), nullable=False)
 
     # NULLABLE
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
 
     # pylint: disable=too-many-arguments

@@ -30,8 +30,8 @@ class Attendee(DB.Model):
     ethnicity = DB.Column('ethnicity', DB.String(20))
     major = DB.Column('major', DB.String(20))
     num_hacks = DB.Column("num_hacks", DB.String(2))
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
 

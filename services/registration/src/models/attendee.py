@@ -26,7 +26,7 @@ class Attendee(DB.Model):
     short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
 
     # NULLables
-    gender = DB.Column('gender', DB.String(1))
+    gender = DB.Column('gender', DB.String(25))
     ethnicity = DB.Column('ethnicity', DB.String(20))
     major = DB.Column('major', DB.String(20))
     num_hacks = DB.Column("num_hacks", DB.String(2))

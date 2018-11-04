@@ -29,7 +29,7 @@ class Attendee(DB.Model):
     gender = DB.Column('gender', DB.String(25))
     ethnicity = DB.Column('ethnicity', DB.String(35))
     major = DB.Column('major', DB.String(50))
-    num_hacks = DB.Column("num_hacks", DB.String(2))
+    num_hacks = DB.Column("num_hacks", DB.String(3))
     github = DB.Column("github", DB.String(80))
     linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))

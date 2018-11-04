@@ -1,11 +1,16 @@
 """Initializes and configures Flask APP, including DB and API endpoints."""
 import os
+import re
+
 from flask import Flask
+from flask_cors import CORS
 from registration.src import DEPLOYMENT_MODE
 from registration.src.db import DB
 from registration.src.api import API
 
 APP = Flask(__name__)
+
+CRUZHACKS_DOMAIN_REGEX = re.compile(r'^https?://(www.)?cruzhacks.com/?$')
 
 with APP.app_context():
     # Set DB connection.  If not found, raises KeyError and exits.
@@ -18,6 +23,11 @@ with APP.app_context():
 
     DB.init_app(APP)
     API.init_app(APP)
+
+    if DEPLOYMENT_MODE in {'dev', 'stg'}:
+        CORS(APP)
+    else:
+        CORS(APP, origins=CRUZHACKS_DOMAIN_REGEX)
 
     # Set any dev deployment modes here.
     if DEPLOYMENT_MODE == 'dev':

@@ -10,10 +10,19 @@ from registration.src.models.attendee import Attendee
 
 
 class AttendeeIsRegistered(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for checking if an attendee is registered already."""
     @use_kwargs({
         'email': base.SimilarKwargs.GET['email']
     })
     def get(self, email):
+        """Gets an attendee by email and returns whether they exist or not.
+
+        :param email: email to query for
+        :type  email: string
+        :returns: True if a registered attendee has the specified email.  Else False.
+        :rtype: bool
+        """
         return base.is_user_registered(Attendee, email)
 
 

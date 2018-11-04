@@ -9,10 +9,19 @@ from registration.src.models.judge import Judge
 
 
 class JudgeIsRegistered(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for checking if a judge is registered already."""
     @use_kwargs({
         'email': base.SimilarKwargs.GET['email']
     })
     def get(self, email):
+        """Gets a judge by email and returns whether they exist or not.
+
+        :param email: email to query for
+        :type  email: string
+        :returns: True if a registered judge has the specified email.  Else False.
+        :rtype: bool
+        """
         return base.is_user_registered(Judge, email)
 
 

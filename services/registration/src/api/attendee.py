@@ -42,7 +42,7 @@ class AttendeeRegistration(Resource):
         'grad_year': fields.Int(required=True),
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
-        'phone': fields.String(required=True),
+        'phone_number': fields.String(required=True),
         'gender': fields.String(missing=None),
         'ethnicity': fields.String(missing=None),
         'major': fields.String(missing=None),
@@ -50,7 +50,7 @@ class AttendeeRegistration(Resource):
         'workshop_ideas': fields.String(missing=None)
     })
     def post(self, email, first_name, last_name, age,
-             university, grad_year, shirt_size, short_answer1, short_answer2, phone,
+             university, grad_year, shirt_size, short_answer1, short_answer2, phone_number,
              gender, ethnicity, major, num_hacks, linkedin, github, dietary_rest, workshop_ideas):
         """Inserts the user in the attendees table.
         Since this hooks into the DB, each field has specific constraints.

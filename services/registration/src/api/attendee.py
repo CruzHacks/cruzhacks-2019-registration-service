@@ -9,6 +9,14 @@ from registration.src.api.utils.parsing import strip_non_num
 from registration.src.models.attendee import Attendee
 
 
+class AttendeeIsRegistered(Resource):
+    @use_kwargs({
+        'email': base.SimilarKwargs.GET['email']
+    })
+    def get(self, email):
+        return base.is_user_registered(Attendee, email)
+
+
 class AttendeeRegistration(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""

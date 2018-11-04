@@ -8,6 +8,14 @@ from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.volunteer import Volunteer
 
 
+class VolunteerIsRegistered(Resource):
+    @use_kwargs({
+        'email': base.SimilarKwargs.GET['email']
+    })
+    def get(self, email):
+        return base.is_user_registered(Volunteer, email)
+
+
 class VolunteerRegistration(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""

@@ -24,7 +24,7 @@ with APP.app_context():
     DB.init_app(APP)
     API.init_app(APP)
 
-    if DEPLOYMENT_MODE == 'dev' or DEPLOYMENT_MODE == 'stg':
+    if DEPLOYMENT_MODE in {'dev', 'stg'}:
         CORS(APP)
     else:
         CORS(APP, origins=CRUZHACKS_DOMAIN_REGEX)

@@ -89,7 +89,7 @@ class AttendeeRegistration(Resource):
         :param major: [OPTIONAL] user's expected major (or undeclared)
         :type  major: string
         :param num_hacks: [OPTIONAL] number of hackathons that the user has attended previously
-        :type  num_hacks: int
+        :type  num_hacks: string
         :param github: [OPTIONAL] Github profile URL
         :type  github: string
         :param linkedin: [OPTIONAL] LinkedIn profile URL

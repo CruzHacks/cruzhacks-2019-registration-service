@@ -27,7 +27,7 @@ class Attendee(DB.Model):
     # NULLables
     gender = DB.Column('gender', DB.String(25))
     ethnicity = DB.Column('ethnicity', DB.String(35))
-    major = DB.Column('major', DB.String(50))
+    major = DB.Column('major', DB.String(100))
     num_hacks = DB.Column("num_hacks", DB.String(3))
     github = DB.Column("github", DB.String(80))
     linkedin = DB.Column("linkedin", DB.String(80))

@@ -85,7 +85,7 @@ class JudgeRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         judge = Judge(
-            email, first_name, last_name, company, shirt_size, short_answer1, short_answer2, available,
-            github=github, linkedin=linkedin, dietary_rest=dietary_rest
+            email, first_name, last_name, company, shirt_size, short_answer1, short_answer2,
+            available, github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
         return base.commit_user(judge)

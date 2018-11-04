@@ -5,7 +5,6 @@ from flask_restful import Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
-from registration.src.api.utils.parsing import datestring_to_datetime
 from registration.src.models.volunteer import Volunteer
 
 
@@ -37,7 +36,7 @@ class VolunteerRegistration(Resource):
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'age': fields.String(required=True),
+        'age': fields.Int(required=True),
         'short_answer': fields.String(required=True),
         'assoc_clubs': fields.String(required=True),
         'availability': fields.String(required=True)

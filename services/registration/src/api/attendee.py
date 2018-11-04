@@ -64,11 +64,12 @@ class AttendeeRegistration(Resource):
         'major': fields.String(missing=None),
         'num_hacks': fields.String(missing=None),
         'workshop_ideas': fields.String(missing=None),
-        'grad_year': fields.Int(missing=None)
+        'grad_year': fields.Int(missing=None),
+        'resume_uri': fields.String(missing=None)
     })
     def post(self, email, first_name, last_name, age, university, shirt_size, short_answer1,
              short_answer2, phone_number, gender, ethnicity, major, num_hacks, linkedin, github,
-             dietary_rest, workshop_ideas, grad_year):
+             dietary_rest, workshop_ideas, grad_year, resume_uri):
         """Inserts the user in the attendees table.
         Since this hooks into the DB, each field has specific constraints.
         Please check registration.src.models.attendee for more information.
@@ -113,10 +114,12 @@ class AttendeeRegistration(Resource):
         :type  dietary_rest: comma-delimited string (might need to change this to a list of strings)
         :param workshop_ideas: [OPTIONAL] comments about workshops that the user would
                                like to see implemented
+        :type  workshop_ideas: string
         :param grad_year: [OPTIONAL] user's expected year of graduation
         :type  grad_year: int
-        :type  workshop_ideas: string
-                :returns: representation of the row that was posted
+        :param resume_uri: [OPTIONAL] URI to the user's resume.  Typically an S3 URL or path.
+        :type  resume_uri: string
+        :returns: representation of the row that was posted
         :rtype: string
         :aborts: 401: invalid permissions (not on whitelist or not in a required role)
                  422: missing required parameter(s)
@@ -128,6 +131,6 @@ class AttendeeRegistration(Resource):
             short_answer1, short_answer2, strip_non_num(phone_number),
             gender=gender, ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
             linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas,
-            grad_year=grad_year
+            grad_year=grad_year, resume_uri=resume_uri
         )
         return base.commit_user(attendee)

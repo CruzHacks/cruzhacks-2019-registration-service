@@ -34,12 +34,13 @@ class Attendee(DB.Model):
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
     grad_year = DB.Column('grad_year', DB.Integer)
+    resume_uri = DB.Column('resume_uri', DB.String(120))
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, age, university, shirt_size,
                  short_answer1, short_answer2, phone_number, gender=None, ethnicity=None,
                  major=None, num_hacks=None, github=None, linkedin=None, dietary_rest=None,
-                 workshop_ideas=None, grad_year=None):
+                 workshop_ideas=None, grad_year=None, resume_uri=None):
 
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
@@ -66,6 +67,7 @@ class Attendee(DB.Model):
         self.dietary_rest = dietary_rest
         self.workshop_ideas = workshop_ideas
         self.grad_year = grad_year
+        self.resume_uri = resume_uri
 
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, university=%s }" % (

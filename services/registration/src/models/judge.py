@@ -21,6 +21,7 @@ class Judge(DB.Model):
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer1 = DB.Column('short_answer1', DB.String(500), nullable=False)
     short_answer2 = DB.Column('short_answer2', DB.String(500), nullable=False)
+    available = DB.Column('available 12-2?', DB.Boolean, nullable=False)
 
     # NULLABLE
     github = DB.Column("github", DB.String(50))
@@ -29,7 +30,7 @@ class Judge(DB.Model):
 
     # pylint: disable=too-many-arguments
     def __init__(self, email, first_name, last_name, company, shirt_size, short_answer1,
-                 short_answer2, github=None, linkedin=None, dietary_rest=None):
+                 short_answer2, available, github=None, linkedin=None, dietary_rest=None):
 
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
@@ -43,6 +44,7 @@ class Judge(DB.Model):
         self.shirt_size = shirt_size
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2
+        self.available = available
 
         # Kwargs.
         self.github = github

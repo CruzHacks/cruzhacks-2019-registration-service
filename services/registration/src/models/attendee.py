@@ -17,7 +17,8 @@ class Attendee(DB.Model):
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(20), nullable=False)
     last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    birthday = DB.Column('birthday', DB.DateTime, nullable=False) # YYYY-MM-DD
+    phone = DB.Column('phone_number', DB.String(15), nullable=False)
+    age = DB.Column('age', DB.Integer, nullable=False)
     university = DB.Column('university', DB.String(50), nullable=False)
     grad_year = DB.Column('grad_year', DB.Integer, nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
@@ -36,7 +37,7 @@ class Attendee(DB.Model):
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, birthday, university, grad_year, shirt_size,
-                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None,
+                 short_answer1, short_answer2, phone, gender=None, ethnicity=None, major=None,
                  num_hacks=None, github=None, linkedin=None, dietary_rest=None,
                  workshop_ideas=None):
 
@@ -48,12 +49,13 @@ class Attendee(DB.Model):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.birthday = birthday
+        self.age = birthday
         self.university = university
         self.grad_year = grad_year
         self.shirt_size = shirt_size
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2
+        self.phone = phone
 
         # Kwargs.
         self.gender = gender

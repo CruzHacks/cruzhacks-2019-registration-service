@@ -26,7 +26,7 @@ with APP.app_context():
 
     # Set any dev deployment modes here.
     if DEPLOYMENT_MODE == 'dev':
-        cors_origins = '*'
+        CORS_ORIGINS = '*'
         APP.logger.warning('You are in development mode')  # pylint: disable=no-member
         APP.logger.warning('Do not push code to master until out of development mode!') #pylint: disable=no-member
         APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -34,9 +34,9 @@ with APP.app_context():
         APP.config['SQLALCHEMY_ECHO'] = True
         DB.drop_all()
     else:
-        cors_origins = CRUZHACKS_DOMAIN_REGEX
-    
-    CORS(APP, origins=cors_origins)
+        CORS_ORIGINS = CRUZHACKS_DOMAIN_REGEX
+
+    CORS(APP, origins=CORS_ORIGINS)
 
     DB.create_all() # Create any tables if they do not exist.
 

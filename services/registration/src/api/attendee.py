@@ -88,8 +88,8 @@ class AttendeeRegistration(Resource):
         :type  first_name: string
         :param last_name: user's last name
         :type  last_name: string
-        :param birthday: date of birth in the form YYYY-MM-DD
-        :type  birthday: string
+        :param age: user's age in years
+        :type  age: int
         :param university: university that the user is enrolled in
         :type  university: string
         :param shirt_size: XS, S, M, ..., shirt size to take into consideration for orders
@@ -98,6 +98,8 @@ class AttendeeRegistration(Resource):
         :type  short_answer1: string
         :param short_answer2: user's reponse to the second short answer question
         :type  short_answer2: string
+        :param phone_number: user's phone number
+        :type  phone_number: string
         :param gender: [OPTIONAL] user's gender, or agender, etc.
         :type  gender: character
         :param ethnicity: [OPTIONAL] user's ethnicity

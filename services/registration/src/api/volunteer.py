@@ -41,7 +41,7 @@ class VolunteerRegistration(Resource):
         'assoc_clubs': fields.String(required=True),
         'availability': fields.String(required=True)
     })
-    def post(self, email, first_name, last_name, birthday, shirt_size,
+    def post(self, email, first_name, last_name, age, shirt_size,
              short_answer, assoc_clubs, availability, github, linkedin, dietary_rest):
         """Inserts the user in the mentors table.
         Since this hooks into the DB, each field has specific constraints.

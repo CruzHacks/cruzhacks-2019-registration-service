@@ -108,7 +108,7 @@ class AttendeeRegistration(Resource):
         """
         attendee = Attendee(
             email, first_name, last_name, age, university,
-            grad_year, shirt_size, short_answer1, short_answer2, strip_non_num(phone),
+            grad_year, shirt_size, short_answer1, short_answer2, strip_non_num(phone_number),
             gender=gender, ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
             linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas
         )

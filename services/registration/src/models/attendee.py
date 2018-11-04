@@ -30,15 +30,15 @@ class Attendee(DB.Model):
     ethnicity = DB.Column('ethnicity', DB.String(20))
     major = DB.Column('major', DB.String(20))
     num_hacks = DB.Column("num_hacks", DB.String(2))
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, age, university, grad_year, shirt_size,
-                 short_answer1, short_answer2, phone_number, gender=None, ethnicity=None, major=None,
-                 num_hacks=None, github=None, linkedin=None, dietary_rest=None,
+                 short_answer1, short_answer2, phone_number, gender=None, ethnicity=None,
+                 major=None, num_hacks=None, github=None, linkedin=None, dietary_rest=None,
                  workshop_ideas=None):
 
         self.private_id = str(uuid4())

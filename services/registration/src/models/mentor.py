@@ -23,8 +23,8 @@ class Mentor(DB.Model):
     mentor_field = DB.Column('mentor_field', DB.String(25), nullable=False)
 
     # NULLABLE
-    github = DB.Column('github', DB.String(50), nullable=True)
-    linkedin = DB.Column('linkedin', DB.String(50), nullable=True)
+    github = DB.Column('github', DB.String(80), nullable=True)
+    linkedin = DB.Column('linkedin', DB.String(80), nullable=True)
     dietary_rest = DB.Column('dietary_rest', DB.String(50), nullable=True)
 
     # pylint: disable=too-many-arguments

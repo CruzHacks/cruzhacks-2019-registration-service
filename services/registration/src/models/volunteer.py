@@ -15,8 +15,8 @@ class Volunteer(DB.Model):
 
     # NON NULLABLE
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
     age = DB.Column('age', DB.Integer, nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(500), nullable=False)

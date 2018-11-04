@@ -15,8 +15,8 @@ class Attendee(DB.Model):
 
     # NOT NULL
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
     phone_number = DB.Column('phone_number', DB.String(15), nullable=False)
     age = DB.Column('age', DB.Integer, nullable=False)
     university = DB.Column('university', DB.String(50), nullable=False)
@@ -27,8 +27,8 @@ class Attendee(DB.Model):
 
     # NULLables
     gender = DB.Column('gender', DB.String(25))
-    ethnicity = DB.Column('ethnicity', DB.String(20))
-    major = DB.Column('major', DB.String(20))
+    ethnicity = DB.Column('ethnicity', DB.String(35))
+    major = DB.Column('major', DB.String(50))
     num_hacks = DB.Column("num_hacks", DB.String(2))
     github = DB.Column("github", DB.String(80))
     linkedin = DB.Column("linkedin", DB.String(80))

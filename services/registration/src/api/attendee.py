@@ -56,7 +56,6 @@ class AttendeeRegistration(Resource):
         **base.SimilarKwargs.POST,
         'age': fields.Int(required=True),
         'university': fields.String(required=True),
-        'grad_year': fields.Int(required=True),
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
         'phone_number': fields.String(required=True),
@@ -64,11 +63,12 @@ class AttendeeRegistration(Resource):
         'ethnicity': fields.String(missing=None),
         'major': fields.String(missing=None),
         'num_hacks': fields.String(missing=None),
-        'workshop_ideas': fields.String(missing=None)
+        'workshop_ideas': fields.String(missing=None),
+        'grad_year': fields.Int(missing=None)
     })
-    def post(self, email, first_name, last_name, age,
-             university, grad_year, shirt_size, short_answer1, short_answer2, phone_number,
-             gender, ethnicity, major, num_hacks, linkedin, github, dietary_rest, workshop_ideas):
+    def post(self, email, first_name, last_name, age, university, shirt_size, short_answer1,
+             short_answer2, phone_number, gender, ethnicity, major, num_hacks, linkedin, github,
+             dietary_rest, workshop_ideas, grad_year):
         """Inserts the user in the attendees table.
         Since this hooks into the DB, each field has specific constraints.
         Please check registration.src.models.attendee for more information.
@@ -91,8 +91,6 @@ class AttendeeRegistration(Resource):
         :type  birthday: string
         :param university: university that the user is enrolled in
         :type  university: string
-        :param grad_year: user's expected year of graduation
-        :type  grad_year: int
         :param shirt_size: XS, S, M, ..., shirt size to take into consideration for orders
         :type  shirt_size: string
         :param short_answer1: user's reponse to the first short answer question
@@ -115,6 +113,8 @@ class AttendeeRegistration(Resource):
         :type  dietary_rest: comma-delimited string (might need to change this to a list of strings)
         :param workshop_ideas: [OPTIONAL] comments about workshops that the user would
                                like to see implemented
+        :param grad_year: [OPTIONAL] user's expected year of graduation
+        :type  grad_year: int
         :type  workshop_ideas: string
                 :returns: representation of the row that was posted
         :rtype: string
@@ -124,9 +124,9 @@ class AttendeeRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         attendee = Attendee(
-            email, first_name, last_name, age, university,
-            grad_year, shirt_size, short_answer1, short_answer2, strip_non_num(phone_number),
+            email, first_name, last_name, age, university, shirt_size,
+            short_answer1, short_answer2, strip_non_num(phone_number),
             gender=gender, ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
-            linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas
+            linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas, grad_year=grad_year
         )
         return base.commit_user(attendee)

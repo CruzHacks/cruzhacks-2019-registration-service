@@ -20,7 +20,6 @@ class Attendee(DB.Model):
     phone_number = DB.Column('phone_number', DB.String(15), nullable=False)
     age = DB.Column('age', DB.Integer, nullable=False)
     university = DB.Column('university', DB.String(50), nullable=False)
-    grad_year = DB.Column('grad_year', DB.Integer, nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
     short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
@@ -34,12 +33,13 @@ class Attendee(DB.Model):
     linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
+    grad_year = DB.Column('grad_year', DB.Integer)
 
     # pylint: disable=too-many-arguments, too-many-locals
-    def __init__(self, email, first_name, last_name, age, university, grad_year, shirt_size,
+    def __init__(self, email, first_name, last_name, age, university, shirt_size,
                  short_answer1, short_answer2, phone_number, gender=None, ethnicity=None,
                  major=None, num_hacks=None, github=None, linkedin=None, dietary_rest=None,
-                 workshop_ideas=None):
+                 workshop_ideas=None, grad_year=None):
 
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
@@ -51,7 +51,6 @@ class Attendee(DB.Model):
         self.last_name = last_name
         self.age = age
         self.university = university
-        self.grad_year = grad_year
         self.shirt_size = shirt_size
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2
@@ -66,6 +65,7 @@ class Attendee(DB.Model):
         self.linkedin = linkedin
         self.dietary_rest = dietary_rest
         self.workshop_ideas = workshop_ideas
+        self.grad_year = grad_year
 
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, university=%s }" % (

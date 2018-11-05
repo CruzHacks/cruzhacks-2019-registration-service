@@ -48,7 +48,7 @@ def is_user_registered(model, email):
     return bool(model.query.filter_by(email=email).first())
 
 
-def get_user(model, email):
+def get_user(model, email=None):
     """Gets a user's entry by the model and their email.
     Gets all users by the model if email is omitted.
 

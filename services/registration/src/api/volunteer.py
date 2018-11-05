@@ -49,7 +49,7 @@ class VolunteerRegistration(Resource):
                  404: email is not found in the DB
                  422: missing required parameter(s)
         """
-        return base.get_user(Volunteer, email)
+        return base.get_user(Volunteer, email=email)
 
     @use_kwargs({
         **base.SimilarKwargs.POST,

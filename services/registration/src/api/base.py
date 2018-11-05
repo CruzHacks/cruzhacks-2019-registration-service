@@ -1,4 +1,6 @@
 """Defines API helpers for all registration types."""
+import logging
+
 from webargs import fields
 from flask_restful import abort
 
@@ -6,6 +8,7 @@ from registration.src.api.utils.parsing import is_valid_email
 from registration.src.api.utils import whitelist
 from registration.src.db import DB, query_response_to_dict
 
+LOG = logging.getLogger(__name__)
 
 class SimilarKwargs:
     """Namespacing for fields (for use_kwargs()) that are common between all models."""
@@ -29,7 +32,23 @@ class SimilarKwargs:
     }
 
 
-def get_user(model, email):
+def is_user_registered(model, email):
+    """Checks if a user is registered on the specified email.
+
+    :param model: the class of the model to use (the class itself, NOT instantiated)
+    :type  model: class of Flask-SQLAlchemy's db.Model (like Attendee, Judge, etc.)
+    :param email: email to query for
+    :type  email: string
+    :returns: If an entry with the email is found, return True.  Else return False.
+    :rtype: bool
+    :aborts: 400: email is given but with invalid format
+    """
+    if email is not None and not is_valid_email(email):
+        abort(400, message='Invalid email format')
+    return bool(model.query.filter_by(email=email).first())
+
+
+def get_user(model, email=None):
     """Gets a user's entry by the model and their email.
     Gets all users by the model if email is omitted.
 

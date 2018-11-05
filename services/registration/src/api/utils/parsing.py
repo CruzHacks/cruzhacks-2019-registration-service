@@ -27,3 +27,7 @@ def datestring_to_datetime(datestring):
     :rtype: datetime
     """
     return datetime(*[int(s) for s in datestring.split('-')])
+
+def strip_non_num(phone):
+    """converts phone number to string with only digits"""
+    return ''.join([i for i in phone if i.isdigit()])

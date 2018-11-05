@@ -15,30 +15,32 @@ class Attendee(DB.Model):
 
     # NOT NULL
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    birthday = DB.Column('birthday', DB.DateTime, nullable=False) # YYYY-MM-DD
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
+    phone_number = DB.Column('phone_number', DB.String(15), nullable=False)
+    age = DB.Column('age', DB.Integer, nullable=False)
     university = DB.Column('university', DB.String(50), nullable=False)
-    grad_year = DB.Column('grad_year', DB.Integer, nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
     short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
 
     # NULLables
-    gender = DB.Column('gender', DB.String(1))
-    ethnicity = DB.Column('ethnicity', DB.String(20))
-    major = DB.Column('major', DB.String(20))
-    num_hacks = DB.Column("num_hacks", DB.Integer)
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    gender = DB.Column('gender', DB.String(25))
+    ethnicity = DB.Column('ethnicity', DB.String(35))
+    major = DB.Column('major', DB.String(100))
+    num_hacks = DB.Column("num_hacks", DB.String(3))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
+    grad_year = DB.Column('grad_year', DB.Integer)
+    resume_uri = DB.Column('resume_uri', DB.String(120))
 
     # pylint: disable=too-many-arguments, too-many-locals
-    def __init__(self, email, first_name, last_name, birthday, university, grad_year, shirt_size,
-                 short_answer1, short_answer2, gender=None, ethnicity=None, major=None,
-                 num_hacks=None, github=None, linkedin=None, dietary_rest=None,
-                 workshop_ideas=None):
+    def __init__(self, email, first_name, last_name, age, university, shirt_size,
+                 short_answer1, short_answer2, phone_number, gender=None, ethnicity=None,
+                 major=None, num_hacks=None, github=None, linkedin=None, dietary_rest=None,
+                 workshop_ideas=None, grad_year=None, resume_uri=None):
 
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
@@ -48,12 +50,12 @@ class Attendee(DB.Model):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.birthday = birthday
+        self.age = age
         self.university = university
-        self.grad_year = grad_year
         self.shirt_size = shirt_size
         self.short_answer1 = short_answer1
         self.short_answer2 = short_answer2
+        self.phone_number = phone_number
 
         # Kwargs.
         self.gender = gender
@@ -64,6 +66,8 @@ class Attendee(DB.Model):
         self.linkedin = linkedin
         self.dietary_rest = dietary_rest
         self.workshop_ideas = workshop_ideas
+        self.grad_year = grad_year
+        self.resume_uri = resume_uri
 
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, university=%s }" % (

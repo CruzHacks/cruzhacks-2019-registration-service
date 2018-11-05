@@ -15,16 +15,16 @@ class Mentor(DB.Model):
 
     # Not NULLABLE
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
     company = DB.Column('company', DB.String(50), nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column('short_answer', DB.String(500), nullable=False)
-    mentor_field = DB.Column('mentor_field', DB.String(25), nullable=False)
+    mentor_field = DB.Column('mentor_field', DB.String(128), nullable=False)
 
     # NULLABLE
-    github = DB.Column('github', DB.String(50), nullable=True)
-    linkedin = DB.Column('linkedin', DB.String(50), nullable=True)
+    github = DB.Column('github', DB.String(80), nullable=True)
+    linkedin = DB.Column('linkedin', DB.String(80), nullable=True)
     dietary_rest = DB.Column('dietary_rest', DB.String(50), nullable=True)
 
     # pylint: disable=too-many-arguments

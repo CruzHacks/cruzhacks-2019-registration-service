@@ -5,8 +5,25 @@ from flask_restful import Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
-from registration.src.api.utils.parsing import datestring_to_datetime
+from registration.src.api.utils.parsing import strip_non_num
 from registration.src.models.attendee import Attendee
+
+
+class AttendeeIsRegistered(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for checking if an attendee is registered already."""
+    @use_kwargs({
+        'email': base.SimilarKwargs.GET['email']
+    })
+    def get(self, email):
+        """Gets an attendee by email and returns whether they exist or not.
+
+        :param email: email to query for
+        :type  email: string
+        :returns: True if a registered attendee has the specified email.  Else False.
+        :rtype: bool
+        """
+        return base.is_user_registered(Attendee, email)
 
 
 class AttendeeRegistration(Resource):
@@ -33,24 +50,26 @@ class AttendeeRegistration(Resource):
                  404: email is not found in the DB
                  422: missing required parameter(s)
         """
-        return base.get_user(Attendee, email)
+        return base.get_user(Attendee, email=email)
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
-        'birthday': fields.String(required=True),
+        'age': fields.Int(required=True),
         'university': fields.String(required=True),
-        'grad_year': fields.Int(required=True),
         'short_answer1': fields.String(required=True),
         'short_answer2': fields.String(required=True),
+        'phone_number': fields.String(required=True),
         'gender': fields.String(missing=None),
         'ethnicity': fields.String(missing=None),
         'major': fields.String(missing=None),
         'num_hacks': fields.String(missing=None),
-        'workshop_ideas': fields.String(missing=None)
+        'workshop_ideas': fields.String(missing=None),
+        'grad_year': fields.Int(missing=None),
+        'resume_uri': fields.String(missing=None)
     })
-    def post(self, email, first_name, last_name, birthday,
-             university, grad_year, shirt_size, short_answer1, short_answer2,
-             gender, ethnicity, major, num_hacks, linkedin, github, dietary_rest, workshop_ideas):
+    def post(self, email, first_name, last_name, age, university, shirt_size, short_answer1,
+             short_answer2, phone_number, gender, ethnicity, major, num_hacks, linkedin, github,
+             dietary_rest, workshop_ideas, grad_year, resume_uri):
         """Inserts the user in the attendees table.
         Since this hooks into the DB, each field has specific constraints.
         Please check registration.src.models.attendee for more information.
@@ -69,18 +88,18 @@ class AttendeeRegistration(Resource):
         :type  first_name: string
         :param last_name: user's last name
         :type  last_name: string
-        :param birthday: date of birth in the form YYYY-MM-DD
-        :type  birthday: string
+        :param age: user's age in years
+        :type  age: int
         :param university: university that the user is enrolled in
         :type  university: string
-        :param grad_year: user's expected year of graduation
-        :type  grad_year: int
         :param shirt_size: XS, S, M, ..., shirt size to take into consideration for orders
         :type  shirt_size: string
         :param short_answer1: user's reponse to the first short answer question
         :type  short_answer1: string
         :param short_answer2: user's reponse to the second short answer question
         :type  short_answer2: string
+        :param phone_number: user's phone number
+        :type  phone_number: string
         :param gender: [OPTIONAL] user's gender, or agender, etc.
         :type  gender: character
         :param ethnicity: [OPTIONAL] user's ethnicity
@@ -88,7 +107,7 @@ class AttendeeRegistration(Resource):
         :param major: [OPTIONAL] user's expected major (or undeclared)
         :type  major: string
         :param num_hacks: [OPTIONAL] number of hackathons that the user has attended previously
-        :type  num_hacks: int
+        :type  num_hacks: string
         :param github: [OPTIONAL] Github profile URL
         :type  github: string
         :param linkedin: [OPTIONAL] LinkedIn profile URL
@@ -98,7 +117,11 @@ class AttendeeRegistration(Resource):
         :param workshop_ideas: [OPTIONAL] comments about workshops that the user would
                                like to see implemented
         :type  workshop_ideas: string
-                :returns: representation of the row that was posted
+        :param grad_year: [OPTIONAL] user's expected year of graduation
+        :type  grad_year: int
+        :param resume_uri: [OPTIONAL] URI to the user's resume.  Typically an S3 URL or path.
+        :type  resume_uri: string
+        :returns: representation of the row that was posted
         :rtype: string
         :aborts: 401: invalid permissions (not on whitelist or not in a required role)
                  422: missing required parameter(s)
@@ -106,9 +129,10 @@ class AttendeeRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         attendee = Attendee(
-            email, first_name, last_name, datestring_to_datetime(birthday), university,
-            grad_year, shirt_size, short_answer1, short_answer2, gender=gender,
-            ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
-            linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas
+            email, first_name, last_name, age, university, shirt_size,
+            short_answer1, short_answer2, strip_non_num(phone_number),
+            gender=gender, ethnicity=ethnicity, major=major, num_hacks=num_hacks, github=github,
+            linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas,
+            grad_year=grad_year, resume_uri=resume_uri
         )
         return base.commit_user(attendee)

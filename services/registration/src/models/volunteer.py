@@ -15,21 +15,21 @@ class Volunteer(DB.Model):
 
     # NON NULLABLE
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
-    birthday = DB.Column('birthday', DB.DateTime, nullable=False) # YYYY-MM-DD
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
+    age = DB.Column('age', DB.Integer, nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer = DB.Column("short_answer", DB.String(500), nullable=False)
     assoc_clubs = DB.Column("assoc_clubs", DB.String(150), nullable=False)
-    availability = DB.Column(DB.String(100), nullable=False)
+    availability = DB.Column(DB.String(150), nullable=False)
 
     # NULLABLE
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
 
     # pylint: disable=too-many-arguments
-    def __init__(self, email, first_name, last_name, birthday, shirt_size, short_answer,
+    def __init__(self, email, first_name, last_name, age, shirt_size, short_answer,
                  assoc_clubs, availability, github=None, linkedin=None, dietary_rest=None):
 
         self.private_id = str(uuid4())
@@ -40,7 +40,7 @@ class Volunteer(DB.Model):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.birthday = birthday
+        self.age = age
         self.shirt_size = shirt_size
         self.short_answer = short_answer
         self.assoc_clubs = assoc_clubs

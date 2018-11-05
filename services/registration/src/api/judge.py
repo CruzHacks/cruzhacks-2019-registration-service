@@ -8,6 +8,23 @@ from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.judge import Judge
 
 
+class JudgeIsRegistered(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for checking if a judge is registered already."""
+    @use_kwargs({
+        'email': base.SimilarKwargs.GET['email']
+    })
+    def get(self, email):
+        """Gets a judge by email and returns whether they exist or not.
+
+        :param email: email to query for
+        :type  email: string
+        :returns: True if a registered judge has the specified email.  Else False.
+        :rtype: bool
+        """
+        return base.is_user_registered(Judge, email)
+
+
 class JudgeRegistration(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""
@@ -33,16 +50,16 @@ class JudgeRegistration(Resource):
                  404: email is not found in the DB
                  422: missing required parameter(s)
         """
-        return base.get_user(Judge, email)
+        return base.get_user(Judge, email=email)
 
     @use_kwargs({
         **base.SimilarKwargs.POST,
         'company': fields.String(required=True),
         'short_answer1': fields.String(required=True),
-        'short_answer2': fields.String(required=True),
+        'available': fields.Boolean(required=True)
     })
     def post(self, email, first_name, last_name, company, shirt_size,
-             short_answer1, short_answer2, github, linkedin, dietary_rest):
+             short_answer1, available, github, linkedin, dietary_rest):
         """Inserts the user in the judges table.
         Since this hooks into the DB, each field has specific constraints.
         Please check registration.src.models.judge for more information.
@@ -67,8 +84,6 @@ class JudgeRegistration(Resource):
         :type  shirt_size: string
         :param short_answer1: user's reponse to the first short answer question
         :type  short_answer1: string
-        :param short_answer2: user's reponse to the second short answer question
-        :type  short_answer2: string
         :param github: [OPTIONAL] Github profile URL
         :type  github: string
         :param linkedin: [OPTIONAL] LinkedIn profile URL
@@ -84,7 +99,7 @@ class JudgeRegistration(Resource):
                       set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
         """
         judge = Judge(
-            email, first_name, last_name, company, shirt_size, short_answer1, short_answer2,
-            github=github, linkedin=linkedin, dietary_rest=dietary_rest
+            email, first_name, last_name, company, shirt_size, short_answer1,
+            available, github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
         return base.commit_user(judge)

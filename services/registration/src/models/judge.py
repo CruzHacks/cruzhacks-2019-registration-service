@@ -15,21 +15,21 @@ class Judge(DB.Model):
 
     # NON NULLABLE
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
-    first_name = DB.Column('first_name', DB.String(20), nullable=False)
-    last_name = DB.Column('last_name', DB.String(20), nullable=False)
+    first_name = DB.Column('first_name', DB.String(30), nullable=False)
+    last_name = DB.Column('last_name', DB.String(30), nullable=False)
     company = DB.Column('company', DB.String(50), nullable=False)
     shirt_size = DB.Column('shirt_size', DB.String(5), nullable=False)
     short_answer1 = DB.Column('short_answer1', DB.String(500), nullable=False)
-    short_answer2 = DB.Column('short_answer2', DB.String(500), nullable=False)
+    available = DB.Column('available 12-2?', DB.Boolean, nullable=False)
 
     # NULLABLE
-    github = DB.Column("github", DB.String(50))
-    linkedin = DB.Column("linkedin", DB.String(50))
+    github = DB.Column("github", DB.String(80))
+    linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
 
     # pylint: disable=too-many-arguments
     def __init__(self, email, first_name, last_name, company, shirt_size, short_answer1,
-                 short_answer2, github=None, linkedin=None, dietary_rest=None):
+                 available, github=None, linkedin=None, dietary_rest=None):
 
         self.private_id = str(uuid4())
         self.public_id = str(uuid4())
@@ -42,7 +42,7 @@ class Judge(DB.Model):
         self.company = company
         self.shirt_size = shirt_size
         self.short_answer1 = short_answer1
-        self.short_answer2 = short_answer2
+        self.available = available
 
         # Kwargs.
         self.github = github

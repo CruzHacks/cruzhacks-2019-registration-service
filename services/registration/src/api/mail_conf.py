@@ -10,7 +10,7 @@ def sendconfirmation():
     """Sends confirmation in a post req"""
     url = 'https://us17.api.mailchimp.com/3.0/lists/c566e13387/members'
     email = request.form['email']
-    request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'}, 
+    request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'},
                                  auth=('user', os.environ['MAIL_APIKEY']))
 
     if request_made.status_code == 404:

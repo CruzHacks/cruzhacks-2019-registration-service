@@ -48,7 +48,7 @@ class MailingListSubmit(Resource):
             base.commit_user(email)
 
 class MailingListConfirmation(Resource):
-    # pylint: disable=no-member, no-self-use
+    # pylint: disable=no-member, no-self-use, line-too-long
     """Endpoint to add to email list and send email confirmation."""
 
     @use_kwargs({

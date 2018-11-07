@@ -12,7 +12,6 @@ class EmailConfirmation(Resource):
 
     @use_kwargs({
         'email': fields.String(required=True)
-        'api_key': fields.String(required=True)
     })
 
     def post(email, api_key):
@@ -26,10 +25,10 @@ class EmailConfirmation(Resource):
         :returns: email success or error
         : rtype : String
         """
-        
+
         url = 'https://us17.api.mailchimp.com/3.0/lists/c566e13387/members'
         request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'},
-                                     auth=('user', api_key))
+                                     auth=('user', os.environ['MAILCHIMP_APIK']))
           
         if request_made.status_code == 404:
             return "email error"

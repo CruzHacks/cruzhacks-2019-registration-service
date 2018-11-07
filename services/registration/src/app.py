@@ -15,7 +15,6 @@ CRUZHACKS_DOMAIN_REGEX = re.compile(r'^https?://(www.)?cruzhacks.com/?$')
 with APP.app_context():
     # Set DB connection.  If not found, raises KeyError and exits.
     APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-    APP.config['MAILCHIMP_API'] = os.environ['MAILCHIMP_API']
 
     # Assume we're not in dev.
     APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

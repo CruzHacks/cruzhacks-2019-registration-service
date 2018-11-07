@@ -1,22 +1,37 @@
 """Sends confirmation email and adds users to email list"""
 import os
-from flask import Flask, request, make_response, jsonify
+# from flask import Flask, request, make_response, jsonify
 import requests
+from webargs import fields
+from webargs.flaskparser import use_kwargs
+from flask_restful import Resource
 
-APP = Flask(__name__)
+# APP = Flask(__name__)
+class EmailConfirmation(Resource):
+    """Endpoint to add to email list and send email confirmation."""
 
-@APP.route("/confirm", methods=["POST"])
-def sendconfirmation():
-    """Sends confirmation in a post req"""
-    url = 'https://us17.api.mailchimp.com/3.0/lists/c566e13387/members'
-    email = request.form['email']
-    request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'},
-                                 auth=('user', os.environ['MAIL_APIKEY']))
+    @use_kwargs({
+        'email': fields.String(required=True)
+        'api_key': fields.String(required=True)
+    })
 
-    if request_made.status_code == 404:
-        return make_response(jsonify(msg="error"), 404, {'Content-Type':'application/json'})
+    def post(email, api_key):
+        """Sends confirmation in a post req
+        :param email: email to send to
+        :type  email: String
 
-    return make_response(jsonify(msg="email sent!"), 200, {'Content-Type':'application/json'})
+        :param api_key: api_key to access mailchimp
+        :type  api_key: String
 
-if __name__ == "__main__":
-    APP.run(host=None, port=8080, debug=True)
+        :returns: email success or error
+        : rtype : String
+        """
+        
+        url = 'https://us17.api.mailchimp.com/3.0/lists/c566e13387/members'
+        request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'},
+                                     auth=('user', api_key))
+          
+        if request_made.status_code == 404:
+            return "email error"
+        
+        return "email success"

@@ -1,9 +1,11 @@
 """API resources for the mentors table."""
+import os
+
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
-from registration.src.api import base
+from registration.src.api import base, mailing_list
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.mentor import Mentor
 
@@ -103,4 +105,5 @@ class MentorRegistration(Resource):
             email, first_name, last_name, company, shirt_size, short_answer, mentor_field,
             github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
-        return base.commit_user(mentor)
+        base.commit_user(mentor)
+        return mailing_list.add(email, str(os.environ['MAILCHIMP_MENTOR_LIST']))

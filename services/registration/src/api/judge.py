@@ -1,9 +1,11 @@
 """API resources for the judges table."""
+import os
+
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
-from registration.src.api import base
+from registration.src.api import base, mailing_list
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.judge import Judge
 
@@ -102,4 +104,5 @@ class JudgeRegistration(Resource):
             email, first_name, last_name, company, shirt_size, short_answer1,
             available, github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
-        return base.commit_user(judge)
+        base.commit_user(judge)
+        return mailing_list.add(email, str(os.environ['MAILCHIMP_JUDGE_LIST']))

@@ -14,7 +14,6 @@ class EmailConfirmation(Resource):
     @use_kwargs({
         'email': fields.String(required=True)
     })
-
     def post(self, email):
         """Sends confirmation in a post req
         :param email: email to send to

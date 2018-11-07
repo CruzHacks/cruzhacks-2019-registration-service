@@ -8,7 +8,7 @@ from registration.src.api.attendee import AttendeeRegistration, AttendeeIsRegist
 from registration.src.api.judge import JudgeRegistration, JudgeIsRegistered
 from registration.src.api.mentor import MentorRegistration, MentorIsRegistered
 from registration.src.api.volunteer import VolunteerRegistration, VolunteerIsRegistered
-from registration.src.api.mailing_list import MailingListSubmit
+from registration.src.api.mailing_list import MailingListSubmit, MailingListConfirmation
 
 API = Api()
 
@@ -25,3 +25,4 @@ API.add_resource(VolunteerRegistration, '/register/volunteer')
 API.add_resource(VolunteerIsRegistered, '/register/volunteer/is_registered')
 
 API.add_resource(MailingListSubmit, '/mailing_list')
+API.add_resource(MailingListConfirmation, '/mailing_confirmation')

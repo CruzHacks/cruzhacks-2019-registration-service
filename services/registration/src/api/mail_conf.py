@@ -8,7 +8,7 @@ from flask_restful import Resource
 
 # APP = Flask(__name__)
 class EmailConfirmation(Resource):
-    # pylint: disable=no-member
+    # pylint: disable=no-member, no-self-use
     """Endpoint to add to email list and send email confirmation."""
 
     @use_kwargs({

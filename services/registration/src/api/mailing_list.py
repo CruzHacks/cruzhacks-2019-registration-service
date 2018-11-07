@@ -48,7 +48,7 @@ class MailingListSubmit(Resource):
             base.commit_user(email)
 
 class MailingListConfirmation(Resource):
-    # pylint: disable=no-member, no-self-use
+    # pylint: disable=no-member, no-self-use, line-too-long
     """Endpoint to add to email list and send email confirmation."""
 
     @use_kwargs({
@@ -66,7 +66,7 @@ class MailingListConfirmation(Resource):
         : rtype : String
         """
 
-        url = 'https://us17.api.mailchimp.com/3.0/lists/c566e13387/members'
+        url = 'https://us17.api.mailchimp.com/3.0/lists/' + str(os.environ['MAILCHIMP_APPLICANT_LIST']) + '/members'
         request_made = requests.post(url, json={'email_address':email, 'status':'subscribed'},
                                      auth=('user', os.environ['MAILCHIMP_APIK']))
 

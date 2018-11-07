@@ -1,4 +1,7 @@
 """API resources for the mailing list table."""
+import os
+import requests
+
 from webargs import fields
 from webargs.flaskparser import use_kwargs
 from flask_restful import Resource

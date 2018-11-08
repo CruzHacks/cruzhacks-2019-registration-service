@@ -34,7 +34,7 @@ class Attendee(DB.Model):
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
     grad_year = DB.Column('grad_year', DB.Integer)
-    resume_uri = DB.Column('resume_uri', DB.String(120))
+    resume_uri = DB.Column('resume_uri', DB.String(150), unique=True)
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, age, university, shirt_size,

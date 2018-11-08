@@ -106,4 +106,4 @@ class JudgeRegistration(Resource):
             available, github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
         base.commit_user(judge)
-        return mailing_list.add(email, str(os.environ['MAILCHIMP_JUDGE_LIST']))
+        return mailing_list.add(email, os.environ['MAILCHIMP_JUDGE_LIST'])

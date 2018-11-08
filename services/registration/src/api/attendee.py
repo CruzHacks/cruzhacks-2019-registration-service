@@ -139,4 +139,4 @@ class AttendeeRegistration(Resource):
             grad_year=grad_year, resume_uri=resume_uri
         )
         base.commit_user(attendee)
-        return mailing_list.add(email, str(os.environ['MAILCHIMP_ATTENDEE_LIST']))
+        return mailing_list.add(email, os.environ['MAILCHIMP_ATTENDEE_LIST'])

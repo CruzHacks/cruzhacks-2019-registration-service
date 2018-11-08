@@ -107,4 +107,4 @@ class MentorRegistration(Resource):
             github=github, linkedin=linkedin, dietary_rest=dietary_rest
         )
         base.commit_user(mentor)
-        return mailing_list.add(email, str(os.environ['MAILCHIMP_MENTOR_LIST']))
+        return mailing_list.add(email, os.environ['MAILCHIMP_MENTOR_LIST'])

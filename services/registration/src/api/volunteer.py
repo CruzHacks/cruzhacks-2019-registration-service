@@ -111,4 +111,4 @@ class VolunteerRegistration(Resource):
             dietary_rest=dietary_rest
         )
         base.commit_user(volunteer)
-        return mailing_list.add(email, str(os.environ['MAILCHIMP_VOLUNTEER_LIST']))
+        return mailing_list.add(email, os.environ['MAILCHIMP_VOLUNTEER_LIST'])

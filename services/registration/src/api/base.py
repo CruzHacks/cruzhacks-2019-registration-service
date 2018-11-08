@@ -1,4 +1,6 @@
 """Defines API helpers for all registration types."""
+import logging
+
 from webargs import fields
 from flask_restful import abort
 
@@ -7,6 +9,7 @@ from registration.src.api.utils.parsing import is_valid_email
 from registration.src.api.utils import whitelist
 from registration.src.db import DB, query_response_to_dict
 
+LOG = logging.getLogger(__name__)
 
 
 class SimilarKwargs:

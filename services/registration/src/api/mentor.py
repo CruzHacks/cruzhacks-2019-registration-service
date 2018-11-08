@@ -6,6 +6,7 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
 from registration.src.api import base
+from registration.src.api.utils import mailing_list
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.mentor import Mentor
 

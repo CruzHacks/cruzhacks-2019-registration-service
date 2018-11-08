@@ -6,7 +6,6 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
 from registration.src.api import base
-from registration.src.api.utils import mailing_list
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.models.volunteer import Volunteer
 
@@ -110,5 +109,4 @@ class VolunteerRegistration(Resource):
             short_answer, assoc_clubs, availability, github=github, linkedin=linkedin,
             dietary_rest=dietary_rest
         )
-        base.commit_user(volunteer)
-        return mailing_list.add(email, os.environ['MAILCHIMP_VOLUNTEER_LIST'])
+        return base.apply(volunteer, email, os.environ['MAILCHIMP_VOLUNTEER_LIST'])

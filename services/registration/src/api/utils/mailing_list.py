@@ -27,7 +27,10 @@ def add(email, mailchimp_list_id):
     if request_did_error:
         abort(
             request_made.status_code,
-            message='{}: {}'.format(response.get('title'), response.get('detail'))
+            status='failed',
+            title=response.get('title'),
+            detail=response.get('detail'),
+            errors=response.get('errors')
         )
 
     return {'status': 'subscribed'}

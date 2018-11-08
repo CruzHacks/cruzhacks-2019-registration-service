@@ -1,14 +1,11 @@
 """Defines API endpoints."""
-#pylint: disable=unused-argument,invalid-name,no-member,no-self-use
-import os
-
-from flask_restful import Api, abort, Resource
+from flask_restful import Api
 
 from registration.src.api.attendee import AttendeeRegistration, AttendeeIsRegistered
 from registration.src.api.judge import JudgeRegistration, JudgeIsRegistered
 from registration.src.api.mentor import MentorRegistration, MentorIsRegistered
 from registration.src.api.volunteer import VolunteerRegistration, VolunteerIsRegistered
-from registration.src.api.mailing_list import SubscriberListConfirmation
+from registration.src.api.subscriber import SubscriberList
 
 API = Api()
 
@@ -24,4 +21,4 @@ API.add_resource(MentorIsRegistered, '/register/mentor/is_registered')
 API.add_resource(VolunteerRegistration, '/register/volunteer')
 API.add_resource(VolunteerIsRegistered, '/register/volunteer/is_registered')
 
-API.add_resource(SubscriberListConfirmation, '/subscriber_confirmation')
+API.add_resource(SubscriberList, '/subscribe')

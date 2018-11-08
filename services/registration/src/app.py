@@ -18,7 +18,7 @@ def getenv_bool(variable, default=None):
     var = os.getenv(variable, default=default)
     if isinstance(var, bool):
         return var
-    assert isinstance(var, string)
+    assert isinstance(var, str)
     return True if var.lower() in {"true", "t", "1", "yes"} else False
 
 
@@ -27,7 +27,9 @@ with APP.app_context():
     APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
     # Assume we're not in dev.
-    APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = getenv_bool('SQLALCHEMY_TRACK_MODIFICATIONS', False)
+    APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = getenv_bool(
+        'SQLALCHEMY_TRACK_MODIFICATIONS', False
+    )
     APP.config['SQLALCHEMY_RECORD_QUERIES'] = getenv_bool('SQLALCHEMY_RECORD_QUERIES', False)
     APP.config['SQLALCHEMY_ECHO'] = getenv_bool('SQLALCHEMY_ECHO', False)
 

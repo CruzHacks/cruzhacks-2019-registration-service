@@ -1,4 +1,6 @@
 """Defines API helpers for all registration types."""
+import logging
+
 from webargs import fields
 from flask_restful import abort
 
@@ -6,6 +8,8 @@ from registration.src.api.utils import mailing_list
 from registration.src.api.utils.parsing import is_valid_email
 from registration.src.api.utils import whitelist
 from registration.src.db import DB, query_response_to_dict
+
+LOG = logging.getLogger(__name__)
 
 
 class SimilarKwargs:
@@ -85,18 +89,34 @@ def commit_user(user):
 
 
 def apply(user, email, mailchimp_list_id):
+    # pylint: disable=no-member
+    """Used for applying a user.
+    Includes adding the user to the DB and to the respective mailing list.
+    If anything fails, we rollback the DB.
+
+    :param user: row to add into its table
+    :type  user: instance of Flask-SQLAlchemy's db.model (like Attendee(), Judge(), etc.)
+    :param email: email of the user to add to a mailing list
+    :type  email: string
+    :param mailchimp_list_id: mailing list ID to add the email to
+    :type  mailchimp_list_id: string
+    :returns: {'status': 'success'}
+    :rtype: dict
+    :aborts: on errors for DB commit or mailing list addition
+    """
     try:
-        commit_user(attendee)
-    except Exception as e:
+        commit_user(user)
+    except Exception as e:  # pylint: disable=broad-except
         DB.session.rollback()
+        LOG.exception(e)
         abort(500, message='Internal server error')
 
     response = mailing_list.add(email, mailchimp_list_id)
-    jsoned_response = reponse.json()
+    jsoned_response = response.json()
 
     request_did_error = response.status_code < 200 or response.status_code > 299
     if request_did_error:
-        log.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
+        LOG.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
         DB.session.rollback()
         abort(
             jsoned_response.get('status'),
@@ -105,5 +125,4 @@ def apply(user, email, mailchimp_list_id):
             detail=jsoned_response.get('detail'),
             errors=jsoned_response.get('errors')
         )
-
     return {'status': 'success'}

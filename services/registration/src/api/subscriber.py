@@ -29,7 +29,7 @@ class SubscriberList(Resource):
 
         request_did_error = response.status_code < 200 or response.status_code > 299
         if request_did_error:
-            LOG.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
+            LOG.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))  # pylint: disable=logging-format-interpolation
             abort(
                 jsoned_response.get('status'),
                 status='failed',

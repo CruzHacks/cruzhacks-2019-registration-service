@@ -106,7 +106,7 @@ def apply(user, email, mailchimp_list_id):
     """
     try:
         commit_user(user)
-    except Exception as e:  # pylint: disable=broad-except
+    except Exception as e:  # pylint: disable=broad-except,invalid-name
         DB.session.rollback()
         LOG.exception(e)
         abort(500, message='Internal server error')
@@ -116,7 +116,7 @@ def apply(user, email, mailchimp_list_id):
 
     request_did_error = response.status_code < 200 or response.status_code > 299
     if request_did_error:
-        LOG.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
+        LOG.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))  # pylint: disable=logging-format-interpolation
         DB.session.rollback()
         abort(
             jsoned_response.get('status'),

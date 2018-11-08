@@ -2,6 +2,7 @@
 from webargs import fields
 from flask_restful import abort
 
+from registration.src.api.utils import mailing_list
 from registration.src.api.utils.parsing import is_valid_email
 from registration.src.api.utils import whitelist
 from registration.src.db import DB, query_response_to_dict
@@ -81,3 +82,28 @@ def commit_user(user):
     DB.session.add(user)
     DB.session.commit()
     return repr(user)
+
+
+def apply(user, email, mailchimp_list_id):
+    try:
+        commit_user(attendee)
+    except Exception as e:
+        DB.session.rollback()
+        abort(500, message='Internal server error')
+
+    response = mailing_list.add(email, mailchimp_list_id)
+    jsoned_response = reponse.json()
+
+    request_did_error = response.status_code < 200 or response.status_code > 299
+    if request_did_error:
+        log.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
+        DB.session.rollback()
+        abort(
+            jsoned_response.get('status'),
+            status='failed',
+            title=jsoned_response.get('title'),
+            detail=jsoned_response.get('detail'),
+            errors=jsoned_response.get('errors')
+        )
+
+    return {'status': 'success'}

@@ -22,4 +22,17 @@ class SubscriberList(Resource):
         :returns: email success or error
         : rtype : String
         """
-        return mailing_list.add(email, os.environ['MAILCHIMP_SUBSCRIBER_LIST'])
+        response = mailing_list.add(email, os.environ['MAILCHIMP_SUBSCRIBER_LIST'])
+        jsoned_response = reponse.json()
+
+        request_did_error = response.status_code < 200 or response.status_code > 299
+        if request_did_error:
+            log.error('Failed to add {} to mailing list: {}'.format(email, jsoned_response))
+            abort(
+                jsoned_response.get('status'),
+                status='failed',
+                title=jsoned_response.get('title'),
+                detail=jsoned_response.get('detail'),
+                errors=jsoned_response.get('errors')
+            )
+        return {'status': 'success'}

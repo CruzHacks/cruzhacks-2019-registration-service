@@ -6,7 +6,6 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import Resource
 
 from registration.src.api import base
-from registration.src.api.utils import mailing_list
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.api.utils.parsing import strip_non_num
 from registration.src.models.attendee import Attendee
@@ -138,5 +137,4 @@ class AttendeeRegistration(Resource):
             linkedin=linkedin, dietary_rest=dietary_rest, workshop_ideas=workshop_ideas,
             grad_year=grad_year, resume_uri=resume_uri
         )
-        base.commit_user(attendee)
-        return mailing_list.add(email, os.environ['MAILCHIMP_ATTENDEE_LIST'])
+        return base.apply(attendee, email, os.environ['MAILCHIMP_ATTENDEE_LIST'])

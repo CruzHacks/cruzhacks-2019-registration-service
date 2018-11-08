@@ -12,14 +12,24 @@ APP = Flask(__name__)
 
 CRUZHACKS_DOMAIN_REGEX = re.compile(r'^https?://(www.)?cruzhacks.com/?$')
 
+
+def getenv_bool(variable, default=None):
+    """Gets an environment variable and tries to convert a string to a bool."""
+    var = os.getenv(variable, default=default)
+    if isinstance(var, bool):
+        return var
+    assert isinstance(var, string)
+    return True if var.lower() in {"true", "t", "1", "yes"} else False
+
+
 with APP.app_context():
     # Set DB connection.  If not found, raises KeyError and exits.
     APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
     # Assume we're not in dev.
-    APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    APP.config['SQLALCHEMY_RECORD_QUERIES'] = False
-    APP.config['SQLALCHEMY_ECHO'] = False
+    APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = getenv_bool('SQLALCHEMY_TRACK_MODIFICATIONS', False)
+    APP.config['SQLALCHEMY_RECORD_QUERIES'] = getenv_bool('SQLALCHEMY_RECORD_QUERIES', False)
+    APP.config['SQLALCHEMY_ECHO'] = getenv_bool('SQLALCHEMY_ECHO', False)
 
     DB.init_app(APP)
     API.init_app(APP)

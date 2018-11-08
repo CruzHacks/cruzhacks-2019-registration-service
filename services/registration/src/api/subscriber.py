@@ -6,7 +6,7 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Resource
 
 from registration.src.api import base
-from registration.src.utils import mailing_list
+from registration.src.api.utils import mailing_list
 
 LOG = logging.getLogger(__name__)
 

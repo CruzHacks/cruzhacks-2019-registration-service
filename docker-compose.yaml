@@ -14,6 +14,7 @@ services:
       - DEPLOYMENT_MODE=prod
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/cruzhacks_db
       - IS_WHITELIST_ENABLED=False
+      - MAILCHIMP_ATTENDEE_LIST=sourdough
     ports:
       - "8000:8000"
     restart: always

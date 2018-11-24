@@ -3,12 +3,35 @@ import os
 
 from webargs import fields
 from webargs.flaskparser import use_kwargs
-from flask_restful import Resource
+from flask_restful import abort, Resource
 
 from registration.src.api import base
 from registration.src.api.utils.whitelist import verify, GIDS
 from registration.src.api.utils.parsing import strip_non_num
+from registration.src.db import DB
 from registration.src.models.attendee import Attendee
+
+class AttendeeAddResume(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for managing an attendee's resume."""
+    @use_kwargs({
+        'email': fields.String(required=True),
+        'resume_uri': fields.String(required=True)
+    })
+    def put(self, email, resume_uri):
+        """ Updates an attendees resume_uri in the database.
+
+        :param email: email to query for
+        :type  email: string
+        :param resume_uri: URI to the user's resume.  Typically an S3 URL or path.
+        :type  resume_uri: string
+        """
+        attendee = Attendee.query.filter_by(email=email).first()
+        if attendee.resume_uri is not None:
+            abort(403, message='resume already exists')
+        attendee.resume_uri = resume_uri
+        DB.session.commit()
+        return {'status': 'success'}
 
 
 class AttendeeIsRegistered(Resource):

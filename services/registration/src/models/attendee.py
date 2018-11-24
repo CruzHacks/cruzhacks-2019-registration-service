@@ -8,12 +8,10 @@ class Attendee(DB.Model):
     """Table of a people's submitted registration info."""
     __tablename__ = 'attendees'
 
-    # Set internally by us, not required for __init__().
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.String(36), unique=True, nullable=False)
     checked_in = DB.Column("checked_in", DB.Boolean, nullable=False)
 
-    # NOT NULL
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(30), nullable=False)
     last_name = DB.Column('last_name', DB.String(30), nullable=False)
@@ -24,7 +22,6 @@ class Attendee(DB.Model):
     short_answer1 = DB.Column("short_answer1", DB.String(500), nullable=False)
     short_answer2 = DB.Column("short_answer2", DB.String(500), nullable=False)
 
-    # NULLables
     gender = DB.Column('gender', DB.String(25))
     ethnicity = DB.Column('ethnicity', DB.String(35))
     major = DB.Column('major', DB.String(100))
@@ -35,6 +32,8 @@ class Attendee(DB.Model):
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
     grad_year = DB.Column('grad_year', DB.Integer)
     resume_uri = DB.Column('resume_uri', DB.String(150), unique=True)
+
+    is_accepted = DB.Column('is_accepted', DB.Boolean)
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, age, university, shirt_size,
@@ -68,6 +67,8 @@ class Attendee(DB.Model):
         self.workshop_ideas = workshop_ideas
         self.grad_year = grad_year
         self.resume_uri = resume_uri
+
+        self.is_accepted = None
 
     def __repr__(self):
         return "{ Attendee: email=%s, name=%s %s, university=%s }" % (

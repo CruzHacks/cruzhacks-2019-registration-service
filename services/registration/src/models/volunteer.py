@@ -8,12 +8,10 @@ class Volunteer(DB.Model):
     """Table of a volunteer's submitted info."""
     __tablename__ = 'volunteers'
 
-    # required fields
     private_id = DB.Column('private_id', DB.String(36), primary_key=True, nullable=False)
     public_id = DB.Column('public_id', DB.String(36), unique=True, nullable=False)
     checked_in = DB.Column('checked_in', DB.Boolean, nullable=False)
 
-    # NON NULLABLE
     email = DB.Column('email', DB.String(50), unique=True, nullable=False)
     first_name = DB.Column('first_name', DB.String(30), nullable=False)
     last_name = DB.Column('last_name', DB.String(30), nullable=False)
@@ -23,10 +21,11 @@ class Volunteer(DB.Model):
     assoc_clubs = DB.Column("assoc_clubs", DB.String(150), nullable=False)
     availability = DB.Column(DB.String(150), nullable=False)
 
-    # NULLABLE
     github = DB.Column("github", DB.String(80))
     linkedin = DB.Column("linkedin", DB.String(80))
     dietary_rest = DB.Column("dietary_rest", DB.String(50))
+
+    is_accepted = DB.Column('is_accepted', DB.Boolean)
 
     # pylint: disable=too-many-arguments
     def __init__(self, email, first_name, last_name, age, shirt_size, short_answer,
@@ -50,6 +49,8 @@ class Volunteer(DB.Model):
         self.github = github
         self.linkedin = linkedin
         self.dietary_rest = dietary_rest
+
+        self.is_accepted = None
 
     def __repr__(self):
         return "{ Volunteer: email=%s, name=%s %s }" % (

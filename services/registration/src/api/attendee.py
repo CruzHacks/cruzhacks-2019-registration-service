@@ -35,7 +35,7 @@ class AttendeeAddResume(Resource):
 
 
 class AttendeeResumeExists(Resource):
-    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use, missing-docstring
     @use_kwargs({
         'email': base.SimilarKwargs.GET['email']
     })

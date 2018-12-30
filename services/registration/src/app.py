@@ -19,7 +19,7 @@ def getenv_bool(variable, default=None):
     if isinstance(var, bool):
         return var
     assert isinstance(var, str)
-    return True if var.lower() in {"true", "t", "1", "yes"} else False
+    return var.lower() in {"true", "t", "1", "yes"}
 
 
 with APP.app_context():

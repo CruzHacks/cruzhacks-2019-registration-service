@@ -36,7 +36,6 @@ class AttendeeAddResume(Resource):
 
 class AttendeeResumeExists(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
-    """Endpoints for checking if an attendee is registered already."""
     @use_kwargs({
         'email': base.SimilarKwargs.GET['email']
     })

@@ -24,7 +24,7 @@ def getenv_bool(variable, default=None):
 
 with APP.app_context():
     APP.config['ERROR_404_HELP'] = False
-    
+
     # Set DB connection.  If not found, raises KeyError and exits.
     APP.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 

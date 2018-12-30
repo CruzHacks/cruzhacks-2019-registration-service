@@ -34,6 +34,24 @@ class AttendeeAddResume(Resource):
         return {'status': 'success'}
 
 
+class AttendeeResumeExists(Resource):
+    # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
+    """Endpoints for checking if an attendee is registered already."""
+    @use_kwargs({
+        'email': base.SimilarKwargs.GET['email']
+    })
+    def get(self, email):
+        """ Checks if a resume exists for some user.
+
+        :param email: email to query for
+        :type  email: string
+        """
+        attendee = Attendee.query.filter_by(email=email).first()
+        if attendee is None:
+            abort(404, message='user not found')
+        return attendee.resume_uri is not None
+
+
 class AttendeeIsRegistered(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for checking if an attendee is registered already."""

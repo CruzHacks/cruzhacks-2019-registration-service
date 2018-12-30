@@ -32,8 +32,11 @@ class Attendee(DB.Model):
     workshop_ideas = DB.Column("workshop_ideas", DB.String(250))
     grad_year = DB.Column('grad_year', DB.Integer)
     resume_uri = DB.Column('resume_uri', DB.String(150), unique=True)
+<<<<<<< HEAD
 
     is_accepted = DB.Column('is_accepted', DB.Boolean)
+=======
+>>>>>>> 8e0163dd67278a1a4f3ec00d2e1fc13238f85e35
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, email, first_name, last_name, age, university, shirt_size,

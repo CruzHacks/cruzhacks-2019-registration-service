@@ -1,3 +1,4 @@
+"""API resources for managing announcements."""
 import logging
 
 from webargs import fields
@@ -49,7 +50,7 @@ class SingleAnnouncement(Resource):
         :param message: [OPTIONAL] More specific description of the announcement
         :type  message: string
         """
-        a = Announcement(title, post_date, message=message)
+        a = Announcement(title, post_date, message=message)  # pylint: disable=invalid-name
         try:
             add_and_commit(a)
         except Exception as e:  # pylint: disable=broad-except,invalid-name
@@ -66,7 +67,19 @@ class SingleAnnouncement(Resource):
     })
     @verify({GIDS['dev']})
     def delete(self, uid, token, title, post_date):
-        a = Announcement.query.get((title, post_date))
+        """Deletes an announcement.
+
+        :param uid: UID to authenticate as
+        :type  uid: string
+        :param token: token (really a password) for the given UID
+        :type  token: string
+        :param title: title of the announcement
+        :type  title: string
+        :param post_date: When the announcement was submitted.  In format of 'yyyy-mm-ddThh:mm:ss'.
+                          For example, 2014-12-22T03:12:58.019077 is valid/accepted.
+        :type  post_date: string
+        """
+        a = Announcement.query.get((title, post_date))  # pylint: disable=invalid-name
         if a is None:
             abort(404, message='Announcement does not exist')
         try:

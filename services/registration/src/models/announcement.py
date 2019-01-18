@@ -18,5 +18,5 @@ class Announcement(DB.Model):
         self.message = message
 
     def __repr__(self):
-        return "{ Announcement: title=%s, post_date=%s, university=%s }" % (
+        return "{ Announcement: title=%s, post_date=%s, message=%s }" % (
             self.title, self.post_date, self.message)

@@ -39,9 +39,8 @@ def verify(gids):
                     assert not gids.isdisjoint({GIDS[g] for g in groups})
 
                     token = kwargs['token']
-                    salt = os.environ['{}_salt'.format(uid)]
-                    hashed_input = bcrypt.hashpw(token, salt)  # pylint: disable=no-member
-                    assert bcrypt.hashpw(token, hashed_input) == os.environ['{}_hashed'.format(uid)] # pylint: disable=no-member
+                    stored_hash = os.environ['{}_hashed'.format(uid)]
+                    assert bcrypt.checkpw(token, stored_hash)
                 except (AssertionError, KeyError):
                     abort(401, message='Unauthorized access.  This incident will be reported.')
             return func(*args, **kwargs)

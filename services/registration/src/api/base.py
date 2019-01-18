@@ -72,20 +72,20 @@ def get_user(model, email=None):
     return [query_response_to_dict(r) for r in resp]
 
 
-def commit_user(user):
+def add_and_commit(row):
     """Adds and commits a user as a row to the database.
 
-    :param user: row to add into its table
-    :type  user: instance of Flask-SQLAlchemy's db.model (like Attendee(), Judge(), etc.)
+    :param row: row to add into its table
+    :type  row: instance of Flask-SQLAlchemy's db.model (like Attendee(), Judge(), etc.)
     :return: representation of the user
     :rtype: string
     :aborts: 500: internal DB error, usually because input did not match the constraints
                  set by the DB.  Is the column the correct type?  Unique?  Can it be NULL?
     """
     # pylint: disable=no-member,too-few-public-methods
-    DB.session.add(user)
+    DB.session.add(row)
     DB.session.commit()
-    return repr(user)
+    return repr(row)
 
 
 def apply(user, email, mailchimp_list_id):
@@ -105,7 +105,7 @@ def apply(user, email, mailchimp_list_id):
     :aborts: on errors for DB commit or mailing list addition
     """
     try:
-        commit_user(user)
+        add_and_commit(user)
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         DB.session.rollback()
         LOG.exception(e)

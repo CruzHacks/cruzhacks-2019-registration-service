@@ -4,7 +4,8 @@ import os
 import pytest
 from werkzeug.exceptions import Unauthorized
 
-from registration.src.api.utils.whitelist import verify, GIDS
+from registration.src.api.utils.whitelist import verify
+from registration.src.models.accounts import Dev
 
 
 class TestWhitelist:
@@ -19,51 +20,44 @@ class TestWhitelist:
             'registration.src.api.utils.whitelist.IS_WHITELIST_ENABLED'
         ).return_value = True
 
+    # TODO
+    @pytest.fixture(autouse=True)
+    def patch_user_model(mocker):
+        class Fake_User:
+            def __init__(self):
+                self.username = 'amickey'
+                self.encrypted_password = 'p@ssw0rd!'
+        mocker.patch(
+            'registrations.src.api.utils.whitelist.User.query.get'
+        ).return_value = Fake_User()
+
     @staticmethod
-    @verify({GIDS['dev']})
+    @verify({Dev})
     def _fake_function(uid=None, token=None):
         """Acts as some function to be whitelisted."""
         return '{}:{}'.format(uid, token)
 
+    # TODO
     def test_success(self, mocker):
-        """Good UID and matching token."""
-        mocker.patch.dict(
-            os.environ,
-            {
-                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
-                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
-                'amickey_groups': 'admin,dev,team'
-            }
-        )
+        """Good UID, good token, good groups."""
         assert TestWhitelist._fake_function(uid='amickey', token='ucsc') == 'amickey:ucsc'
 
-    @pytest.mark.parametrize('test_environ,test_uid,test_token', [
-        (   # Good UID, bad token, good groups.
-            {
-                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
-                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
-                'amickey_groups': 'admin,dev,team'
-            },
-            'amickey',
-            'uw'
-        ),
-        (   # Good UID, good token, bad groups.
-            {
-                'amickey_salt': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e',
-                'amickey_hashed': '$2a$12$2sDqlA7N4izk8cWrFcqQ8e4/QWxiiHHFEoPGQA36QONCiPpG2zTO6',
-                'amickey_groups': 'judge'
-            },
-            'amickey',
-            'uw'
-        ),
+    # TODO
+    @pytest.mark.parametrize('test_uid, test_token', [
         (   # Bad UID.
-            {},
-            'amickey',
-            'ucsc'
+            'u',
+            't',
+        ),
+        (   # Good UID, bad token
+            'u',
+            't',
+        ),
+        (   # Good UID, good token, bad groups (not in Dev)
+            'u',
+            't',
         )
     ])
     def test_unauthorized(self, mocker, test_environ, test_uid, test_token):
         """Unauthorized, UID and token do not match whitelist."""
-        mocker.patch.dict(os.environ, test_environ)
         with pytest.raises(Unauthorized):
             TestWhitelist._fake_function(uid=test_uid, token=test_token)

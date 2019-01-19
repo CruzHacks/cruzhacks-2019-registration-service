@@ -7,6 +7,7 @@ from flask_cors import CORS
 from registration.src import DEPLOYMENT_MODE
 from registration.src.db import DB
 from registration.src.api import API
+from registration.src.models.accounts import Dev, Director, Organizer, User
 
 APP = Flask(__name__)
 

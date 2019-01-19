@@ -6,9 +6,10 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Resource
 
 from registration.src.api import base
-from registration.src.api.utils.whitelist import verify, GIDS
+from registration.src.api.utils.whitelist import verify
 from registration.src.api.utils.parsing import strip_non_num
 from registration.src.db import DB
+from registration.src.models.accounts import Dev
 from registration.src.models.attendee import Attendee
 
 class AttendeeAddResume(Resource):
@@ -72,7 +73,7 @@ class AttendeeRegistration(Resource):
     # pylint: disable=no-member, unused-argument, too-many-arguments, too-many-locals, no-self-use
     """Endpoints for registering a user or retrieving registered user(s)."""
     @use_kwargs(base.SimilarKwargs.GET)
-    @verify({GIDS['dev']})
+    @verify({Dev})
     def get(self, uid, token, email):
         """Gets a user's entry by the model and their email.
         Gets all users by the model if email is omitted.

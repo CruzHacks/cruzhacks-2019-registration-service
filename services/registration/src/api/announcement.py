@@ -6,8 +6,9 @@ from webargs.flaskparser import use_kwargs
 from flask_restful import abort, Resource
 
 from registration.src.api.base import add_and_commit
-from registration.src.api.utils.whitelist import verify, GIDS
+from registration.src.api.utils.whitelist import verify
 from registration.src.db import DB, query_response_to_dict
+from registration.src.models.accounts import Dev
 from registration.src.models.announcement import Announcement
 
 LOG = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class SingleAnnouncement(Resource):
         'post_date': fields.DateTime(required=True),
         'message': fields.String(missing=None)
     })
-    @verify({GIDS['dev']})
+    @verify({Dev})
     def post(self, uid, token, title, post_date, message):
         """Creates an announcement.
 
@@ -65,7 +66,7 @@ class SingleAnnouncement(Resource):
         'title': fields.String(required=True),
         'post_date': fields.DateTime(required=True)
     })
-    @verify({GIDS['dev']})
+    @verify({Dev})
     def delete(self, uid, token, title, post_date):
         """Deletes an announcement.
 

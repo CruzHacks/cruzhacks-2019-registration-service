@@ -13,7 +13,7 @@ services:
       - PYTHONPATH="$PYTHONPATH:/usr/src/app:/usr/local/lib:/usr/local/bin"
       - DEPLOYMENT_MODE=prod
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/cruzhacks_db
-      - IS_WHITELIST_ENABLED=False
+      - IS_WHITELIST_ENABLED=True
       - MAILCHIMP_ATTENDEE_LIST=sourdough
     ports:
       - "8000:8000"

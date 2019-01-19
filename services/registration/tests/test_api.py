@@ -27,7 +27,7 @@ class TestWhitelist:
                 self.username = 'amickey'
                 self.encrypted_password = 'p@ssw0rd!'
         mocker.patch(
-            'registrations.src.api.utils.whitelist.User.query.get'
+            'registration.src.api.utils.whitelist.User.query.get'
         ).return_value = Fake_User()
 
     @staticmethod

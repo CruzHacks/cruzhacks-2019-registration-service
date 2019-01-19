@@ -7,7 +7,7 @@ class User(DB.Model):
     __tablename__ = 'users'
 
     username = DB.Column('username', DB.String(64), primary_key=True)
-    encrypted_password = DB.Column('encrypted_password', DB.Binary(60))
+    encrypted_password = DB.Column('encrypted_password', DB.LargeBinary(60))
 
     # pylint: disable=too-many-arguments, too-many-locals
     def __init__(self, username, encrypted_password):

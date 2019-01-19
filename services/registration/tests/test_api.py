@@ -20,7 +20,6 @@ class TestWhitelist:
             'registration.src.api.utils.whitelist.IS_WHITELIST_ENABLED'
         ).return_value = True
 
-    # TODO
     @pytest.fixture(autouse=True)
     def patch_user_model(mocker):
         class Fake_User:

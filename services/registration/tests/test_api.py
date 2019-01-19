@@ -14,14 +14,14 @@ class TestWhitelist:
 
     @staticmethod
     @pytest.fixture(autouse=True)
-    def patch_is_whitelist_enabled(mocker):
-        """Guarantees that the whitelist is enabled."""
+    def before_all_patching(mocker):
+        """Things to patch before all tests."""
+        # Enable the whitelist/accounts.
         mocker.patch(
             'registration.src.api.utils.whitelist.IS_WHITELIST_ENABLED'
         ).return_value = True
 
-    @pytest.fixture(autouse=True)
-    def patch_user_model(mocker):
+        # Patch user model.
         class Fake_User:
             def __init__(self):
                 self.username = 'amickey'

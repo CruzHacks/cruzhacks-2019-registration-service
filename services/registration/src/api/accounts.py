@@ -7,7 +7,7 @@ from flask_restful import abort, Resource
 import bcrypt
 
 from registration.src.api.base import add_and_commit
-from registration.src.api.utils.whitelist import verify
+from registration.src.api.utils.whitelist import GROUP_MODELS, user_exists_and_password_matches, verify
 from registration.src.db import DB, query_response_to_dict
 from registration.src.models.accounts import User as UserModel
 
@@ -37,3 +37,16 @@ class User(Resource):
             LOG.exception(e)
             abort(500, message='Internal server error')
         return {'status': 'success'}
+
+class Verify(Resource):
+    @use_kwargs({
+        'uid': fields.String(required=True),
+        'token': fields.String(required=True),
+        'groups': fields.String(required=True)
+    })
+    def get(self, uid, token, groups):
+        group_models = {GROUP_MODELS[g] for g in groups.split(',') if g and g in GROUP_MODELS}
+        if user_exists_and_password_matches(uid, token.encode('utf8'), group_models):
+            return {'status': 'success'}
+        else:
+            abort(401, message='Invalid username, password, or groups')

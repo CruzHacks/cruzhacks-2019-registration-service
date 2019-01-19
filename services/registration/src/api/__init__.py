@@ -1,7 +1,7 @@
 """Defines API endpoints."""
 from flask_restful import Api
 
-from registration.src.api.accounts import User
+from registration.src.api.accounts import User, Verify
 from registration.src.api.announcement import SingleAnnouncement, AllAnnouncements
 from registration.src.api.attendee import (
     AttendeeRegistration, AttendeeIsRegistered, AttendeeAddResume, AttendeeResumeExists
@@ -14,6 +14,7 @@ from registration.src.api.subscriber import SubscriberList
 API = Api()
 
 API.add_resource(User, '/accounts/users')
+API.add_resource(Verify, '/accounts/users/verify')
 
 API.add_resource(SingleAnnouncement, '/announcements')
 API.add_resource(AllAnnouncements, '/announcements/all')

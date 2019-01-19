@@ -1,4 +1,5 @@
 """API tests."""
+from collections import namedtuple
 import os
 
 import pytest
@@ -7,6 +8,9 @@ from werkzeug.exceptions import Unauthorized
 from registration.src.api.utils.whitelist import verify
 from registration.src.models.accounts import Dev
 
+
+FakeUser = namedtuple('FakeAccount', ['username', 'encrypted_password'])
+FakeRole = namedtuple('FakeRole', ['username'])
 
 class TestWhitelist:
     """Tests if a user can access a whitelisted function."""
@@ -21,14 +25,27 @@ class TestWhitelist:
             'registration.src.api.utils.whitelist.IS_WHITELIST_ENABLED'
         ).return_value = True
 
+        class FakeUsernameQuery:
+            def __init__(self, accounts):
+                self.accounts = accounts
+
+            def get(self, username):
+                for candidate in self.accounts:
+                    if candidate.username == username:
+                        return candidate
+
         # Patch user model.
-        class Fake_User:
-            def __init__(self):
-                self.username = 'amickey'
-                self.encrypted_password = 'p@ssw0rd!'
+        class FakeAccount:
+            def __init__(self, accounts):
+                self.query = FakeUsernameQuery(accounts)
+
+        fake_users = [
+            FakeUser(username='amickey', encrypted_password='p@ssw0rd')
+        ]
+
         mocker.patch(
-            'registration.src.api.utils.whitelist.User.query.get'
-        ).return_value = Fake_User()
+            'registration.src.api.utils.whitelist.User'
+        ).return_value = FakeAccount(fake_users)
 
     @staticmethod
     @verify({Dev})

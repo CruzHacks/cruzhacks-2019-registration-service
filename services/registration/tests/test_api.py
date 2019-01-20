@@ -35,6 +35,9 @@ class TestWhitelist:
                 self.query = FakeUsernameQuery()
         
         mocker.patch('registration.src.api.utils.whitelist.User').return_value = FakeAccount()
+        mocker.patch('registration.src.api.utils.whitelist.Dev').return_value = FakeAccount()
+        mocker.patch('registration.src.api.utils.whitelist.Director').return_value = FakeAccount()
+        mocker.patch('registration.src.api.utils.whitelist.Organizer').return_value = FakeAccount()
 
         def get_user(uid):
             users = {

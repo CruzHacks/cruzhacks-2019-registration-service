@@ -27,7 +27,7 @@ LOG = logging.getLogger(__name__)
 def user_exists_and_password_matches(uid, token, group_models):
     # Check that the user is valid.
     user = User.query.get(uid)
-    if not user:
+    if user is None:
         return False
 
     if not bcrypt.checkpw(token, user.encrypted_password):

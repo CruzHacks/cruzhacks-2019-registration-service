@@ -81,7 +81,7 @@ class TestWhitelist:
         ).side_effect = get_directors
 
         mocker.patch(
-            'registration.src.api.utils.whitelist.Organizers.query.get'
+            'registration.src.api.utils.whitelist.Organizer.query.get'
         ).side_effect = get_organizers
 
     @staticmethod

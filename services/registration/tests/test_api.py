@@ -70,19 +70,19 @@ class TestWhitelist:
 
         mocker.patch(
             'registration.src.api.utils.whitelist.User.query.get'
-        ).side_effect = get_user
+        ).return_value = get_user
 
         mocker.patch(
             'registration.src.api.utils.whitelist.Dev.query.get'
-        ).side_effect = get_devs
+        ).return_value = get_devs
 
         mocker.patch(
             'registration.src.api.utils.whitelist.Director.query.get'
-        ).side_effect = get_directors
+        ).return_value = get_directors
 
         mocker.patch(
             'registration.src.api.utils.whitelist.Organizer.query.get'
-        ).side_effect = get_organizers
+        ).return_value = get_organizers
 
     @staticmethod
     @verify({Dev})

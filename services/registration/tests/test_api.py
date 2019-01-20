@@ -70,7 +70,7 @@ class TestWhitelist:
                 'amickey': FakeUser(
                     username='amickey',
                     encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd
-                )
+                ),
                 'yikes': FakeUser(
                 username='yikes',
                 encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd

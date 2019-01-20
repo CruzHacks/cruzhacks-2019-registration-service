@@ -25,45 +25,16 @@ class TestWhitelist:
         FakeUser = namedtuple('FakeAccount', ['username', 'encrypted_password'])
         FakeRole = namedtuple('FakeRole', ['username'])
 
-        """
         # Implements the interface of a query from a table.
         class FakeUsernameQuery:
-            def __init__(self, accounts):
-                self.accounts = accounts
-
-            def get(self, username):
-                for candidate in self.accounts:
-                    if candidate.username == username:
-                        return candidate
+            pass
 
         # Implements the interface of an account table (e.g. User, Dev, Director, Organizer)
         class FakeAccount:
-            def __init__(self, accounts):
-                self.query = FakeUsernameQuery(accounts)
-
-        # Populate our "tables".
-        mocker.patch(
-            'registration.src.api.utils.whitelist.User'
-        ).return_value = FakeAccount([
-            FakeUser(
-                username='amickey',
-                encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd
-            ),
-            FakeUser(
-                username='yikes',
-                encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd
-            )
-        ])
-        mocker.patch(
-            'registration.src.api.utils.whitelist.Dev'
-        ).return_value = FakeAccount([FakeRole(username='amickey')])
-        mocker.patch(
-            'registration.src.api.utils.whitelist.Director'
-        ).return_value = FakeAccount([FakeRole(username='yikes')])
-        mocker.patch(
-            'registration.src.api.utils.whitelist.Organizer'
-        ).return_value = FakeAccount([])
-        """
+            def __init__(self):
+                self.query = FakeUsernameQuery()
+        
+        mocker.patch('registration.src.api.utils.whitelist.User').return_value = FakeAccount()
 
         def get_user(uid):
             users = {

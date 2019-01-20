@@ -9,9 +9,6 @@ from registration.src.api.utils.whitelist import verify
 from registration.src.models.accounts import Dev
 
 
-FakeUser = namedtuple('FakeAccount', ['username', 'encrypted_password'])
-FakeRole = namedtuple('FakeRole', ['username'])
-
 class TestWhitelist:
     """Tests if a user can access a whitelisted function."""
     #pylint: disable=no-self-use
@@ -25,6 +22,10 @@ class TestWhitelist:
             'registration.src.api.utils.whitelist.IS_WHITELIST_ENABLED'
         ).return_value = True
 
+        FakeUser = namedtuple('FakeAccount', ['username', 'encrypted_password'])
+        FakeRole = namedtuple('FakeRole', ['username'])
+
+        # Implements the interface of a query from a table.
         class FakeUsernameQuery:
             def __init__(self, accounts):
                 self.accounts = accounts
@@ -34,18 +35,33 @@ class TestWhitelist:
                     if candidate.username == username:
                         return candidate
 
-        # Patch user model.
+        # Implements the interface of an account table (e.g. User, Dev, Director, Organizer)
         class FakeAccount:
             def __init__(self, accounts):
                 self.query = FakeUsernameQuery(accounts)
 
-        fake_users = [
-            FakeUser(username='amickey', encrypted_password='p@ssw0rd')
-        ]
-
+        # Populate our "tables".
         mocker.patch(
             'registration.src.api.utils.whitelist.User'
-        ).return_value = FakeAccount(fake_users)
+        ).return_value = FakeAccount([
+            FakeUser(
+                username='amickey',
+                encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd
+            ),
+            FakeUser(
+                username='yikes',
+                encrypted_password=b'$2b$12$kVp2MoxWtYJhGWCT5fi4k.JH93YK6iHmaBo3fhfUB42eyrUJS.FNO' # p@ssw0rd
+            )
+        ])
+        mocker.patch(
+            'registration.src.api.utils.whitelist.Dev'
+        ).return_value = FakeAccount([FakeRole(username='amickey')])
+        mocker.patch(
+            'registration.src.api.utils.whitelist.Director'
+        ).return_value = FakeAccount([FakeRole(username='yikes')])
+        mocker.patch(
+            'registration.src.api.utils.whitelist.Organizer'
+        ).return_value = FakeAccount([])
 
     @staticmethod
     @verify({Dev})
@@ -53,27 +69,25 @@ class TestWhitelist:
         """Acts as some function to be whitelisted."""
         return '{}:{}'.format(uid, token)
 
-    # TODO
     def test_success(self, mocker):
         """Good UID, good token, good groups."""
-        assert TestWhitelist._fake_function(uid='amickey', token='ucsc') == 'amickey:ucsc'
+        assert TestWhitelist._fake_function(uid='amickey', token='p@ssw0rd') == 'amickey:p@ssw0rd'
 
-    # TODO
     @pytest.mark.parametrize('test_uid, test_token', [
         (   # Bad UID.
-            'u',
-            't',
+            'my_uid_doesnt_exist',
+            'token',
         ),
         (   # Good UID, bad token
-            'u',
-            't',
+            'yikes',
+            'my_token_doesnt_match',
         ),
         (   # Good UID, good token, bad groups (not in Dev)
-            'u',
-            't',
+            'yikes',
+            'p@ssw0rd',
         )
     ])
-    def test_unauthorized(self, mocker, test_environ, test_uid, test_token):
+    def test_unauthorized(self, mocker, test_uid, test_token):
         """Unauthorized, UID and token do not match whitelist."""
         with pytest.raises(Unauthorized):
             TestWhitelist._fake_function(uid=test_uid, token=test_token)
